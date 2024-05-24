@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://dk0r6on5lcgit"
+path="res://.godot/imported/gebco_08_rev_elev_16200x8100.png-a9c2f075278e8b07b7eebec27ac0357f.image"
+
+[deps]
+
+source_file="res://planet/gebco_08_rev_elev_16200x8100.png"
+dest_files=["res://.godot/imported/gebco_08_rev_elev_16200x8100.png-a9c2f075278e8b07b7eebec27ac0357f.image"]
+
+[params]
+

@@ -1,0 +1,56 @@
+[gd_scene load_steps=8 format=3 uid="uid://cv4jcwcgtywdm"]
+
+[ext_resource type="Shader" path="res://addons/eyeball_shader/shaders/eyeball_shader.gdshader" id="1_i5h22"]
+[ext_resource type="Texture2D" uid="uid://ce5kipaaoeyfx" path="res://addons/eyeball_shader/textures/eye_grad_blue.tres" id="2_srxll"]
+[ext_resource type="Texture2D" uid="uid://b8fbklubp6wue" path="res://addons/eyeball_shader/textures/ring_dodge_grad.tres" id="3_l5ewo"]
+[ext_resource type="Texture2D" uid="uid://c61usu0cnxrr5" path="res://addons/eyeball_shader/textures/ring_mult_grad.tres" id="4_itm6e"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_tw6na"]
+radius = 0.1
+height = 1.75
+radial_segments = 16
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ap85a"]
+render_priority = 0
+shader = ExtResource("1_i5h22")
+shader_parameter/iris_radius = 0.35
+shader_parameter/iris_margin = 0.02
+shader_parameter/pupil_radius = 0.1
+shader_parameter/eye_white = Color(1, 1, 1, 1)
+shader_parameter/pupil_color = Color(0, 0, 0, 1)
+shader_parameter/texture_iris_color = ExtResource("2_srxll")
+shader_parameter/texture_iris_ring_dodge = ExtResource("3_l5ewo")
+shader_parameter/texture_iris_ring_mult = ExtResource("4_itm6e")
+shader_parameter/eye_cell_scale = 17.0
+shader_parameter/eye_cell_jitter = 0.6
+shader_parameter/iris_pinch = 0.6
+shader_parameter/iris_cells_num_octaves = 1
+shader_parameter/iris_cells_lacunarity = 2.0
+shader_parameter/iris_cells_weighted_strength = 0.5
+shader_parameter/rand_seed = null
+shader_parameter/uv1_scale = Vector3(2, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+
+[sub_resource type="SphereMesh" id="SphereMesh_lpe75"]
+material = SubResource("ShaderMaterial_ap85a")
+radius = 0.05
+height = 0.1
+
+[node name="Node3D" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.875, 0)
+mesh = SubResource("CapsuleMesh_tw6na")
+
+[node name="Camera" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.65, 0)
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Camera"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.1, 0, -0.1)
+mesh = SubResource("SphereMesh_lpe75")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Camera"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.1, 0, -0.1)
+mesh = SubResource("SphereMesh_lpe75")
+skeleton = NodePath("../..")

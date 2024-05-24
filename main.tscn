@@ -1,0 +1,710 @@
+[gd_scene load_steps=65 format=3 uid="uid://diraimltgcruw"]
+
+[ext_resource type="Script" path="res://planet/terrain.gd" id="1"]
+[ext_resource type="Script" path="res://multiplayer/multiplayer.gd" id="1_o1462"]
+[ext_resource type="Material" uid="uid://cfup815wm0vd8" path="res://planet/new_shadermaterial.tres" id="2"]
+[ext_resource type="Script" path="res://sun.gd" id="2_4wyh8"]
+[ext_resource type="Image" uid="uid://dk0r6on5lcgit" path="res://planet/gebco_08_rev_elev_16200x8100.png" id="3"]
+[ext_resource type="PackedScene" uid="uid://m1udv707ijle" path="res://planet/planet.tscn" id="3_s1e41"]
+[ext_resource type="Texture2D" uid="uid://3t8iomjsx4bs" path="res://ui/in game/land_shallow_topo_2048.jpg" id="4"]
+[ext_resource type="Script" path="res://planet/planet.gd" id="5"]
+[ext_resource type="PackedScene" uid="uid://cffie56u3bqwu" path="res://player/player.tscn" id="6"]
+[ext_resource type="Script" path="res://ui/in game/map player.gd" id="7"]
+[ext_resource type="Script" path="res://ui/key toggle.gd" id="8"]
+[ext_resource type="PackedScene" path="res://models/tree 1/tree 1v2.tscn" id="9"]
+[ext_resource type="Script" path="res://planet/Ocean.gd" id="10"]
+[ext_resource type="Material" uid="uid://btvq2kx8rxucp" path="res://ui/invert colors.tres" id="11_4oqrv"]
+[ext_resource type="Script" path="res://ui/in game/debug menu.gd" id="11_n541p"]
+[ext_resource type="FontFile" uid="uid://hkgna3pbdejj" path="res://ui/OpenSans-Regular.ttf" id="12"]
+[ext_resource type="Script" path="res://player/freecam.gd" id="13"]
+[ext_resource type="PackedScene" uid="uid://dcn34vivc37vm" path="res://ui/in game/pause.tscn" id="15_rxe8o"]
+[ext_resource type="Texture2D" uid="uid://337s7oc4kr71" path="res://textures/grass/Grass004_1K_Color.jpg" id="15_s50ri"]
+[ext_resource type="Shader" path="res://planet/atmosphere.gdshader" id="17_lx5dk"]
+[ext_resource type="PackedScene" uid="uid://c63wijximmsu4" path="res://space station.tscn" id="18_64sir"]
+[ext_resource type="Shader" uid="uid://c8003nfwndhnd" path="res://normalize.tres" id="22_hvquw"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_brkaq"]
+sky_top_color = Color(0, 0, 0, 1)
+sky_horizon_color = Color(0, 0, 0, 1)
+ground_bottom_color = Color(0, 0, 0, 1)
+ground_horizon_color = Color(0, 0, 0, 1)
+sun_curve = 0.0549032
+
+[sub_resource type="Sky" id="Sky_k8uqm"]
+sky_material = SubResource("ProceduralSkyMaterial_brkaq")
+
+[sub_resource type="Environment" id="Environment_hiyj3"]
+background_mode = 2
+sky = SubResource("Sky_k8uqm")
+ambient_light_source = 2
+ambient_light_color = Color(0.486275, 0.764706, 0.772549, 1)
+ambient_light_energy = 0.03
+tonemap_mode = 3
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_bcxkq"]
+
+[sub_resource type="Animation" id="Animation_xy4oh"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-0.523599, 0.548242, 3.75522e-08)]
+}
+
+[sub_resource type="Animation" id="Animation_rbn0s"]
+resource_name = "day_night"
+length = 300.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 300),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-0.523599, 0.548242, 3.75522e-08), Vector3(-0.523599, 6.83122, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_nw3ox"]
+_data = {
+"RESET": SubResource("Animation_xy4oh"),
+"day_night": SubResource("Animation_rbn0s")
+}
+
+[sub_resource type="BoxMesh" id="BoxMesh_xis6e"]
+flip_faces = true
+size = Vector3(20000, 20000, 20000)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_isqwt"]
+render_priority = 0
+shader = ExtResource("17_lx5dk")
+shader_parameter/planet_radius = 8192.0
+shader_parameter/atmosphere_radius = 10000.0
+shader_parameter/density = 19.5
+shader_parameter/falloff = 0.865
+shader_parameter/sky_color = Color(0.271, 0.855, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="3"]
+albedo_color = Color(0.356863, 0.537255, 1, 1)
+
+[sub_resource type="SphereMesh" id="2"]
+material = SubResource("3")
+radius = 8193.0
+height = 8193.0
+radial_segments = 512
+rings = 256
+is_hemisphere = true
+
+[sub_resource type="InputEventAction" id="InputEventAction_fvjft"]
+action = &"hide ui"
+
+[sub_resource type="InputEventAction" id="8"]
+action = &"debug"
+
+[sub_resource type="FontFile" id="9"]
+fallbacks = Array[Font]([ExtResource("12")])
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
+
+[sub_resource type="InputEventAction" id="4"]
+action = &"map_toggle"
+
+[sub_resource type="FastNoiseLite" id="1"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_au0x1"]
+flip_faces = true
+size = Vector3(3000, 3000, 3000)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ronx2"]
+render_priority = 0
+shader = ExtResource("17_lx5dk")
+shader_parameter/planet_radius = 512.0
+shader_parameter/atmosphere_radius = 1500.0
+shader_parameter/density = 19.5
+shader_parameter/falloff = 0.865
+shader_parameter/sky_color = Color(1, 0.713726, 0.282353, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wmuwf"]
+flip_faces = true
+size = Vector3(500, 500, 500)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0veas"]
+render_priority = 0
+shader = ExtResource("17_lx5dk")
+shader_parameter/planet_radius = 128.0
+shader_parameter/atmosphere_radius = 250.0
+shader_parameter/density = 19.5
+shader_parameter/falloff = 0.865
+shader_parameter/sky_color = Color(0.458824, 0.384314, 1, 1)
+
+[sub_resource type="VisualShaderNodeSwitch" id="VisualShaderNodeSwitch_x3bm6"]
+default_input_values = [0, false, 1, Vector3(1, 1, 1), 2, Vector3(0.1, 0, 0)]
+op_type = 4
+
+[sub_resource type="VisualShaderNodeColorParameter" id="13"]
+parameter_name = "water"
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="14"]
+parameter_name = "radius"
+
+[sub_resource type="VisualShaderNodeVaryingGetter" id="VisualShaderNodeVaryingGetter_37t4g"]
+varying_name = "global_pos"
+varying_type = 4
+
+[sub_resource type="VisualShaderNodeTextureParameterTriplanar" id="VisualShaderNodeTextureParameterTriplanar_q4o72"]
+parameter_name = "Albedo"
+texture_type = 1
+
+[sub_resource type="VisualShaderNodeTextureParameterTriplanar" id="VisualShaderNodeTextureParameterTriplanar_sycik"]
+parameter_name = "normal"
+texture_type = 2
+
+[sub_resource type="VisualShaderNodeTextureParameterTriplanar" id="5"]
+parameter_name = "ao"
+
+[sub_resource type="VisualShaderNodeCompare" id="6"]
+default_input_values = [0, 0.0, 1, 1024.2, 2, 1e-05]
+function = 2
+
+[sub_resource type="VisualShaderNodeVectorLen" id="VisualShaderNodeVectorLen_t82ke"]
+
+[sub_resource type="VisualShaderNodeInput" id="12"]
+input_name = "vertex"
+
+[sub_resource type="VisualShaderNodeTransformParameter" id="15"]
+parameter_name = "pos"
+
+[sub_resource type="VisualShaderNodeTransformVecMult" id="16"]
+
+[sub_resource type="VisualShaderNodeVaryingSetter" id="VisualShaderNodeVaryingSetter_cgrmc"]
+varying_name = "global_pos"
+varying_type = 4
+
+[sub_resource type="VisualShader" id="VisualShader_treyp"]
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
+
+
+// Varyings
+varying vec3 global_pos;
+
+uniform mat4 pos;
+uniform float radius;
+uniform sampler2D Albedo : source_color;
+uniform vec4 water : source_color;
+uniform sampler2D normal : hint_normal;
+
+
+// TextureParameterTriplanar
+	vec4 triplanar_texture(sampler2D p_sampler, vec3 p_weights, vec3 p_triplanar_pos) {
+		vec4 samp = vec4(0.0);
+		samp += texture(p_sampler, p_triplanar_pos.xy) * p_weights.z;
+		samp += texture(p_sampler, p_triplanar_pos.xz) * p_weights.y;
+		samp += texture(p_sampler, p_triplanar_pos.zy * vec2(-1.0, 1.0)) * p_weights.x;
+		return samp;
+	}
+
+	uniform vec3 triplanar_scale = vec3(1.0, 1.0, 1.0);
+	uniform vec3 triplanar_offset;
+	uniform float triplanar_sharpness = 0.5;
+
+	varying vec3 triplanar_power_normal;
+	varying vec3 triplanar_pos;
+
+void vertex() {
+// TextureParameterTriplanar
+	{
+		triplanar_power_normal = pow(abs(NORMAL), vec3(triplanar_sharpness));
+		triplanar_power_normal /= dot(triplanar_power_normal, vec3(1.0));
+		triplanar_pos = VERTEX * triplanar_scale + triplanar_offset;
+		triplanar_pos *= vec3(1.0, -1.0, 1.0);
+	}
+// TransformParameter:7
+	mat4 n_out7p0 = pos;
+
+
+// Input:4
+	vec3 n_out4p0 = VERTEX;
+
+
+// TransformVectorMult:8
+	vec3 n_out8p0 = (n_out7p0 * vec4(n_out4p0, 1.0)).xyz;
+
+
+// VaryingSetter:9
+	global_pos = n_out8p0;
+
+
+}
+
+void fragment() {
+// VaryingGetter:14
+	vec3 n_out14p0 = global_pos;
+
+
+// VectorLen:9
+	float n_out9p0 = length(n_out14p0);
+
+
+// FloatParameter:13
+	float n_out13p0 = radius;
+
+
+// Compare:7
+	bool n_out7p0 = n_out9p0 > n_out13p0;
+
+
+// TextureParameterTriplanar:4
+	vec4 n_out4p0 = triplanar_texture(Albedo, triplanar_power_normal, triplanar_pos);
+
+
+// ColorParameter:12
+	vec4 n_out12p0 = water;
+
+
+	vec3 n_out10p0;
+// Switch:10
+	n_out10p0 = mix(vec3(n_out12p0.xyz), vec3(n_out4p0.xyz), float(n_out7p0));
+
+
+// TextureParameterTriplanar:5
+	vec4 n_out5p0 = triplanar_texture(normal, triplanar_power_normal, triplanar_pos);
+
+
+// Output:0
+	ALBEDO = n_out10p0;
+	NORMAL_MAP = vec3(n_out5p0.xyz);
+
+
+}
+"
+varyings/global_pos = "0,4"
+nodes/vertex/0/position = Vector2(180, 160)
+nodes/vertex/4/node = SubResource("12")
+nodes/vertex/4/position = Vector2(-1120, 320)
+nodes/vertex/7/node = SubResource("15")
+nodes/vertex/7/position = Vector2(-1120, 140)
+nodes/vertex/8/node = SubResource("16")
+nodes/vertex/8/position = Vector2(-760, 180)
+nodes/vertex/9/node = SubResource("VisualShaderNodeVaryingSetter_cgrmc")
+nodes/vertex/9/position = Vector2(-480, 200)
+nodes/vertex/connections = PackedInt32Array(7, 0, 8, 0, 4, 0, 8, 1, 8, 0, 9, 0)
+nodes/fragment/0/position = Vector2(380, -160)
+nodes/fragment/4/node = SubResource("VisualShaderNodeTextureParameterTriplanar_q4o72")
+nodes/fragment/4/position = Vector2(-420, -120)
+nodes/fragment/5/node = SubResource("VisualShaderNodeTextureParameterTriplanar_sycik")
+nodes/fragment/5/position = Vector2(-340, 300)
+nodes/fragment/6/node = SubResource("5")
+nodes/fragment/6/position = Vector2(-340, 600)
+nodes/fragment/7/node = SubResource("6")
+nodes/fragment/7/position = Vector2(-340, -300)
+nodes/fragment/9/node = SubResource("VisualShaderNodeVectorLen_t82ke")
+nodes/fragment/9/position = Vector2(-600, -280)
+nodes/fragment/10/node = SubResource("VisualShaderNodeSwitch_x3bm6")
+nodes/fragment/10/position = Vector2(0, -20)
+nodes/fragment/12/node = SubResource("13")
+nodes/fragment/12/position = Vector2(-340, 140)
+nodes/fragment/13/node = SubResource("14")
+nodes/fragment/13/position = Vector2(-680, -180)
+nodes/fragment/14/node = SubResource("VisualShaderNodeVaryingGetter_37t4g")
+nodes/fragment/14/position = Vector2(-894.052, -314.365)
+nodes/fragment/connections = PackedInt32Array(9, 0, 7, 0, 7, 0, 10, 0, 12, 0, 10, 2, 4, 0, 10, 1, 13, 0, 7, 1, 5, 0, 0, 9, 14, 0, 9, 0, 10, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jul6f"]
+render_priority = 0
+shader = SubResource("VisualShader_treyp")
+shader_parameter/pos = null
+shader_parameter/radius = 64.02
+shader_parameter/water = Color(0.356863, 0.537255, 1, 1)
+shader_parameter/triplanar_scale = Vector3(0.25, 0.25, 0.25)
+shader_parameter/triplanar_offset = null
+shader_parameter/triplanar_sharpness = 0.5
+shader_parameter/Albedo = ExtResource("15_s50ri")
+
+[sub_resource type="BoxMesh" id="BoxMesh_t6w0v"]
+flip_faces = true
+size = Vector3(300, 300, 300)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cwkki"]
+render_priority = 0
+shader = ExtResource("17_lx5dk")
+shader_parameter/planet_radius = 64.0
+shader_parameter/atmosphere_radius = 150.0
+shader_parameter/density = 9.86
+shader_parameter/falloff = 0.865
+shader_parameter/sky_color = Color(0.271, 0.855, 1, 1)
+
+[sub_resource type="Animation" id="Animation_f2nvt"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Node3D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_kocja"]
+resource_name = "orbit"
+length = 110.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Node3D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 110),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 6.28319, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fdl4b"]
+_data = {
+"RESET": SubResource("Animation_f2nvt"),
+"orbit": SubResource("Animation_kocja")
+}
+
+[sub_resource type="QuadMesh" id="QuadMesh_737h8"]
+center_offset = Vector3(0, 0, -0.1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5djd2"]
+render_priority = 0
+shader = ExtResource("22_hvquw")
+shader_parameter/amount = 0.0
+
+[node name="Node3D" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_hiyj3")
+camera_attributes = SubResource("CameraAttributesPractical_bcxkq")
+
+[node name="Multiplayer" type="Node" parent="."]
+process_mode = 3
+script = ExtResource("1_o1462")
+server = true
+
+[node name="players" type="Node3D" parent="."]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.853442, -0.260594, 0.451362, 3.25212e-08, 0.866026, 0.5, -0.521188, -0.426721, 0.739102, 0, 0, 0)
+shadow_enabled = true
+shadow_bias = 0.0
+shadow_reverse_cull_face = true
+script = ExtResource("2_4wyh8")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="DirectionalLight3D"]
+libraries = {
+"": SubResource("AnimationLibrary_nw3ox")
+}
+speed_scale = 5.0
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 569, 0)
+visible = false
+projection = 1
+size = 1024.0
+far = 8192.0
+
+[node name="player" parent="." instance=ExtResource("6")]
+transform = Transform3D(0.999999, -0.000924233, 0.000925024, 0.000925024, 0.999999, -0.000855211, -0.000924233, 0.000856066, 0.999999, 0.174, 8192.09, -0.126)
+
+[node name="planet" parent="." instance=ExtResource("3_s1e41")]
+priority = true
+size = 14
+observer_path = NodePath("../player")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="planet"]
+mesh = SubResource("BoxMesh_xis6e")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("ShaderMaterial_isqwt")
+
+[node name="Ocean" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("2")
+script = ExtResource("10")
+player_path = NodePath("../player")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("8")
+key = SubResource("InputEventAction_fvjft")
+
+[node name="debug" type="Control" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("8")
+key = SubResource("8")
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/debug"]
+material = ExtResource("11_4oqrv")
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 14.0
+theme_override_fonts/font = SubResource("9")
+text = "Debug"
+script = ExtResource("11_n541p")
+
+[node name="map" type="Control" parent="CanvasLayer/Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("8")
+key = SubResource("4")
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="CanvasLayer/Control/map"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+ratio = 2.0
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/map/AspectRatioContainer"]
+layout_mode = 2
+texture = ExtResource("4")
+expand_mode = 1
+
+[node name="Control" type="Control" parent="CanvasLayer/Control/map/AspectRatioContainer"]
+layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Control/map/AspectRatioContainer/Control"]
+layout_mode = 0
+offset_left = -5.0
+offset_top = -5.0
+offset_right = 5.0
+offset_bottom = 5.0
+color = Color(1, 0.537255, 0, 1)
+script = ExtResource("7")
+player_path = NodePath("../../../../../../player")
+
+[node name="pause_menu" parent="CanvasLayer/Control" instance=ExtResource("15_rxe8o")]
+visible = false
+layout_mode = 1
+
+[node name="MenuButton" type="MenuButton" parent="CanvasLayer/Control/pause_menu"]
+material = ExtResource("11_4oqrv")
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -135.0
+offset_bottom = 51.0
+grow_horizontal = 0
+theme_override_fonts/font = ExtResource("12")
+theme_override_font_sizes/font_size = 24
+text = "Teleport"
+
+[node name="tree 1" parent="." instance=ExtResource("9")]
+transform = Transform3D(5, 0, 0, 0, -5, 7.54979e-07, 0, -7.54979e-07, -5, -1, -8224, 0)
+
+[node name="planet2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24000, 0, 24000)
+script = ExtResource("5")
+priority = null
+size = 12
+mass = 66.0
+observer_path = NodePath("../player")
+material = ExtResource("2")
+height = 64.0
+heightmap = ExtResource("3")
+noise = SubResource("1")
+
+[node name="Node3D" type="Node3D" parent="planet2"]
+script = ExtResource("1")
+
+[node name="Spatial2" type="Node3D" parent="planet2"]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+script = ExtResource("1")
+
+[node name="Spatial3" type="Node3D" parent="planet2"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+script = ExtResource("1")
+
+[node name="Spatial4" type="Node3D" parent="planet2"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+script = ExtResource("1")
+
+[node name="Spatial5" type="Node3D" parent="planet2"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+script = ExtResource("1")
+
+[node name="Spatial6" type="Node3D" parent="planet2"]
+transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0)
+script = ExtResource("1")
+
+[node name="planet3" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32000, 0, -7000)
+script = ExtResource("5")
+priority = null
+mass = 4.0
+observer_path = NodePath("../player")
+material = ExtResource("2")
+height = 64.0
+heightmap = ExtResource("3")
+noise = SubResource("1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="planet3"]
+mesh = SubResource("BoxMesh_au0x1")
+surface_material_override/0 = SubResource("ShaderMaterial_ronx2")
+
+[node name="Node3D" type="Node3D" parent="planet3"]
+script = ExtResource("1")
+
+[node name="Spatial2" type="Node3D" parent="planet3"]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+script = ExtResource("1")
+
+[node name="Spatial3" type="Node3D" parent="planet3"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+script = ExtResource("1")
+
+[node name="Spatial4" type="Node3D" parent="planet3"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+script = ExtResource("1")
+
+[node name="Spatial5" type="Node3D" parent="planet3"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+script = ExtResource("1")
+
+[node name="Spatial6" type="Node3D" parent="planet3"]
+transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0)
+script = ExtResource("1")
+
+[node name="planet4" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24000, 0, 8000)
+script = ExtResource("5")
+priority = null
+size = 8
+mass = 1
+observer_path = NodePath("../player")
+material = ExtResource("2")
+height = 64.0
+heightmap = ExtResource("3")
+noise = SubResource("1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="planet4"]
+mesh = SubResource("BoxMesh_wmuwf")
+surface_material_override/0 = SubResource("ShaderMaterial_0veas")
+
+[node name="Node3D" type="Node3D" parent="planet4"]
+script = ExtResource("1")
+
+[node name="Spatial2" type="Node3D" parent="planet4"]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+script = ExtResource("1")
+
+[node name="Spatial3" type="Node3D" parent="planet4"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+script = ExtResource("1")
+
+[node name="Spatial4" type="Node3D" parent="planet4"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+script = ExtResource("1")
+
+[node name="Spatial5" type="Node3D" parent="planet4"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+script = ExtResource("1")
+
+[node name="Spatial6" type="Node3D" parent="planet4"]
+transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0)
+script = ExtResource("1")
+
+[node name="planet5" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64000, 0, 2000)
+script = ExtResource("5")
+priority = null
+size = 7
+mass = 0.128
+observer_path = NodePath("../player")
+material = SubResource("ShaderMaterial_jul6f")
+height = 4.0
+heightmap = ExtResource("3")
+noise = SubResource("1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="planet5"]
+mesh = SubResource("BoxMesh_t6w0v")
+surface_material_override/0 = SubResource("ShaderMaterial_cwkki")
+
+[node name="Node3D" type="Node3D" parent="planet5"]
+script = ExtResource("1")
+
+[node name="Spatial2" type="Node3D" parent="planet5"]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+script = ExtResource("1")
+
+[node name="Spatial3" type="Node3D" parent="planet5"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+script = ExtResource("1")
+
+[node name="Spatial4" type="Node3D" parent="planet5"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+script = ExtResource("1")
+
+[node name="Spatial5" type="Node3D" parent="planet5"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+script = ExtResource("1")
+
+[node name="Spatial6" type="Node3D" parent="planet5"]
+transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0)
+script = ExtResource("1")
+
+[node name="Camera2" type="Camera3D" parent="."]
+fov = 90.0
+near = 0.1
+far = 524288.0
+script = ExtResource("13")
+
+[node name="Node3D" type="Node3D" parent="."]
+rotation_edit_mode = 2
+
+[node name="CSGCombiner3D" parent="Node3D" instance=ExtResource("18_64sir")]
+transform = Transform3D(-4.37114e-08, 0, -1, -1, -4.37114e-08, 4.37114e-08, -4.37114e-08, 1, 1.91069e-15, 0, 0, 10100)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Node3D"]
+root_node = NodePath("../..")
+callback_mode_process = 0
+libraries = {
+"": SubResource("AnimationLibrary_fdl4b")
+}
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, -1.62921e-07, 0, 1, 0, 1.62921e-07, 0, 1, 0, 0, 0)
+visible = false
+custom_aabb = AABB(-200000, -200000, -200000, 400000, 400000, 400000)
+mesh = SubResource("QuadMesh_737h8")
+surface_material_override/0 = SubResource("ShaderMaterial_5djd2")
