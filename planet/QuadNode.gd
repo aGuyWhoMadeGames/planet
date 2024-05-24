@@ -98,7 +98,7 @@ func split():
 	RenderingServer.instance_set_visible(instance,false)
 	PhysicsServer3D.body_set_shape_disabled(collider,0,true)
 	queued = false
-	OS.delay_msec(100)
+	OS.delay_msec(5)
 	return true
 
 func _exit_tree():
