@@ -79,7 +79,7 @@ func _input(event):
 			if $Camera3D.rotation_degrees.x < -90:
 				$Camera3D.rotation_degrees.x = -90
 			
-			$"../Multiplayer".rpc("update_view", $Camera3D.rotation)
+			#$"../Multiplayer".rpc("update_view", $Camera3D.rotation)
 		
 	
 	if Input.is_action_just_pressed("unstuck"):
