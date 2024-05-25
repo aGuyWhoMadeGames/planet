@@ -32,9 +32,7 @@ func _process(_delta):
 				Multiplayer.SET_ID:
 					signal_id = data.id
 					log_message("id: "+str(signal_id))
-					socket.send_text(JSON.stringify({
-						type=Multiplayer.GET_SERVERS
-					}))
+					get_servers()
 					network.create_client(signal_id)
 					multiplayer.multiplayer_peer = network
 					multiplayer.connected_to_server.connect(queue_free)
@@ -58,6 +56,11 @@ func join(game):
 	rtc.ice_candidate_created.connect(send_ice)
 	
 	network.add_peer(rtc, 1)
+
+func get_servers():
+	socket.send_text(JSON.stringify({
+		type=Multiplayer.GET_SERVERS
+	}))
 
 func send_description(type: String, sdp: String):
 	socket.send_text(JSON.stringify({
