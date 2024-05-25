@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cv4jcwcgtywdm"]
+[gd_scene load_steps=8 format=3 uid="uid://bpio6xj2mkdn8"]
 
 [ext_resource type="Shader" path="res://addons/eyeball_shader/shaders/eyeball_shader.gdshader" id="1_i5h22"]
 [ext_resource type="Texture2D" uid="uid://ce5kipaaoeyfx" path="res://addons/eyeball_shader/textures/eye_grad_blue.tres" id="2_srxll"]

@@ -1,0 +1,57 @@
+[gd_scene load_steps=2 format=3 uid="uid://cn41pvepgni1q"]
+
+[ext_resource type="Script" path="res://multiplayer/menu.gd" id="1_cojrx"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_cojrx")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="client" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Client"
+
+[node name="server" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Server"
+
+[node name="signal" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Signal"
+
+[node name="Label" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -244.0
+offset_right = 265.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 2
+scroll_following = true
+selection_enabled = true
+
+[node name="ItemList" type="ItemList" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[connection signal="pressed" from="VBoxContainer/client" to="." method="_on_client_pressed"]
+[connection signal="pressed" from="VBoxContainer/server" to="." method="_on_server_pressed"]
+[connection signal="pressed" from="VBoxContainer/signal" to="." method="_on_signal_pressed"]
+[connection signal="item_activated" from="ItemList" to="." method="_on_item_list_item_activated"]
