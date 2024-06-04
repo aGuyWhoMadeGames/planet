@@ -1,21 +1,16 @@
 extends MultiplayerSpawner
 
 @export var player:PackedScene
-@export var other:PackedScene
+
 
 func _ready():
 	spawn_function = func(id):
 		var node:Node3D
 		node = player.instantiate()
-		#if id == multiplayer.get_unique_id():
-			#node = player.instantiate()
-		#else:
-			#node = other.instantiate()
 		node.position = Vector3(0,10,0)
 		node.name = str(id)
 		node.set_multiplayer_authority(id)
 		return node
-	
 	
 	if Multiplayer.server:
 		multiplayer.peer_connected.connect(spawn)
@@ -24,3 +19,8 @@ func _ready():
 
 func peer_disconnected(id):
 	get_node(str(id)).queue_free()
+
+func peer_connected(id):
+	var node = player.instantiate()
+	node.name = str(id)
+	get_node(spawn_path).add_child(node)
