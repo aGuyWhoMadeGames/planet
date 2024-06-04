@@ -13,6 +13,12 @@ var hook_pos = Vector3()
 
 @onready var input := $input
 
+# Workaround for velocity not being exposed in the editor.
+@export var vel:Vector3:
+	set(v):
+		velocity = v
+	get:
+		return velocity
 
 func _ready():
 	tpllstr("83.34539020630596, -55.66442482887864");
@@ -67,22 +73,13 @@ func _input(event):
 				$Camera3D.rotation_degrees.x = 90
 			if $Camera3D.rotation_degrees.x < -90:
 				$Camera3D.rotation_degrees.x = -90
-			
-			#$"../Multiplayer".rpc("update_view", $Camera3D.rotation)
-		
 	
 	if Input.is_action_just_pressed("unstuck"):
-		position = position.normalized() * ($"../planet".height+(1<<$"../planet".size-1))
+		position = position.normalized() * ($"../../planet".height+(1<<$"../../planet".size-1))
 	
 	
 	if Input.is_action_just_pressed("left_click"):
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-#		if $Camera/RayCast.is_colliding():
-#			hook_active = true
-#			hook_pos = $Camera/RayCast.get_collision_point()
-#
-#	if Input.is_action_just_released("left_click"):
-#		hook_active = false
 
 func align_with_y(xform, new_y):
 	xform.basis.y = new_y

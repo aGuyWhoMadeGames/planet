@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cffie56u3bqwu"]
+[gd_scene load_steps=16 format=3 uid="uid://cffie56u3bqwu"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1"]
 [ext_resource type="Shader" path="res://addons/eyeball_shader/shaders/eyeball_shader.gdshader" id="2_v8vaa"]
@@ -56,6 +56,23 @@ properties/0/replication_mode = 1
 properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/replication_mode = 1
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_bofuv"]
+properties/0/path = NodePath(".:vel")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("input:movement2")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("input:jump")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath("input:click")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath("SpotLight3D:visible")
+properties/4/spawn = true
+properties/4/replication_mode = 1
 
 [node name="player" type="CharacterBody3D"]
 script = ExtResource("1")
@@ -115,4 +132,9 @@ visible = false
 mesh = SubResource("CylinderMesh_31n2k")
 
 [node name="server" type="MultiplayerSynchronizer" parent="."]
+replication_interval = 0.1
+delta_interval = 0.1
 replication_config = SubResource("SceneReplicationConfig_3f7tu")
+
+[node name="client" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_bofuv")
