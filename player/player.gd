@@ -11,6 +11,8 @@ var hook_pos = Vector3()
 @export var gravity = 2
 @export var jump_power = 50
 
+@onready var input := $input
+
 
 func _ready():
 	tpllstr("83.34539020630596, -55.66442482887864");
@@ -29,42 +31,17 @@ func _ready():
 
 func _physics_process(delta):
 	
-	#up = position.normalized()
+	velocity += $Camera3D.global_transform.basis * (Vector3.BACK)*10*input.click
 	
-#	if hook_active:
-#		velocity += (hook_pos - translation).normalized() * 5
-	
-	if Input.is_action_pressed("right_click"):
-		velocity -= $Camera3D.global_transform.basis * (Vector3.FORWARD)*10
-	if Input.is_action_pressed("left_click"):
-		velocity -= $Camera3D.global_transform.basis * (Vector3.BACK)*10
-	
-	var movement = Vector3()
-	if Input.is_action_pressed("ui_up"):
-		movement.z -= 1
-	if Input.is_action_pressed("ui_down"):
-		movement.z += 1
-	if Input.is_action_pressed("ui_left"):
-		movement.x -= 1
-	if Input.is_action_pressed("ui_right"):
-		movement.x += 1
-	
-	if Input.is_action_pressed("sprint"):
-		movement *= run_speed
-	else:
-		movement *= walk_speed
-	
-	movement *=  int($Camera3D.current)
+	var movement2 = input.movement2
+	var movement = Vector3(movement2.x,0,movement2.y)
 	
 	movement = transform.basis * (movement)
 	movement = movement.rotated(up, $Camera3D.rotation.y)
+	
 	velocity += movement
-	var rotated_vel = transform.basis.inverse() * (velocity)
-#	rotated_vel *= Vector3(friction, 1, friction)
+	var rotated_vel = transform.basis.inverse() * velocity
 	velocity = transform.basis * (rotated_vel)
-	#velocity *= friction
-	#velocity *= Vector3(friction, 1, friction)
-	#velocity -= up * gravity
 	
 	var f = Gravity.get_force(global_position)*delta
 	velocity += f
@@ -72,16 +49,12 @@ func _physics_process(delta):
 	
 	if is_on_floor():
 		velocity *= friction
-		if Input.is_action_pressed("jump"):
+		if input.jump:
 			velocity += up * jump_power
 	
-	set_velocity(velocity)
 	set_up_direction(up.normalized())
 	move_and_slide()
-	velocity = velocity
 	
-	#view_up = view_up.move_toward(up, 0.03).normalized()
-	#transform = transform.interpolate_with(align_with_y(transform, up), 0.2)
 	transform = align_with_y(transform, up)
 
 func _input(event):

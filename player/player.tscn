@@ -1,7 +1,8 @@
-[gd_scene load_steps=14 format=3 uid="uid://cffie56u3bqwu"]
+[gd_scene load_steps=15 format=3 uid="uid://cffie56u3bqwu"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1"]
 [ext_resource type="Shader" path="res://addons/eyeball_shader/shaders/eyeball_shader.gdshader" id="2_v8vaa"]
+[ext_resource type="Script" path="res://player/input.gd" id="2_vua6v"]
 [ext_resource type="Texture2D" uid="uid://ce5kipaaoeyfx" path="res://addons/eyeball_shader/textures/eye_grad_blue.tres" id="3_h3l08"]
 [ext_resource type="Texture2D" uid="uid://b8fbklubp6wue" path="res://addons/eyeball_shader/textures/ring_dodge_grad.tres" id="4_dmsom"]
 [ext_resource type="Texture2D" uid="uid://c61usu0cnxrr5" path="res://addons/eyeball_shader/textures/ring_mult_grad.tres" id="5_0ylij"]
@@ -58,6 +59,9 @@ properties/1/replication_mode = 1
 
 [node name="player" type="CharacterBody3D"]
 script = ExtResource("1")
+
+[node name="input" type="Node" parent="."]
+script = ExtResource("2_vua6v")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
