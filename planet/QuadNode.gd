@@ -53,7 +53,7 @@ func build():
 
 func checkForDelete():
 	if Engine.is_editor_hint():return false
-	var pos = root.observer.position-root.global_position
+	var pos = GlobalData.observer.position-root.global_position
 	d = (pos-center3).length()
 	if d > 96<<lod:
 		for i in get_children():
@@ -75,7 +75,7 @@ func checkForSplit():
 		else:
 			return false
 	if lod<=root.lod:return false
-	var pos = root.observer.position-root.global_position
+	var pos = GlobalData.observer.position-root.global_position
 	d = (pos-center3).length()
 	if d < 64<<lod:
 #		split()

@@ -3,7 +3,6 @@ extends Node3D
 class_name Terrain
 
 @export var reload = false: set = refresh
-var observer_path:NodePath: set = update_observer
 var size
 var lod
 var material:Material
@@ -13,7 +12,6 @@ var height = 10.0
 var heightmap:Image
 var noise:FastNoiseLite
 #export var tree_noise:OpenSimplexNoise
-var observer# = get_node(observer_path)
 
 
 func _ready():
@@ -21,17 +19,12 @@ func _ready():
 	#rebuild()
 
 func get_params():
-	observer = get_parent().get_node(get_parent().observer_path)
 	size = get_parent().size
 	lod = get_parent().lod
 	material = get_parent().material
 	height = get_parent().height
 	heightmap = get_parent().heightmap
 	noise = get_parent().noise
-
-func update_observer(a):
-	observer_path = a
-	observer = get_node(observer_path)
 
 func refresh(_a):
 	get_params()

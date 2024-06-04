@@ -25,8 +25,7 @@ func _ready():
 		$Camera3D.current = true
 		$Camera3D/MeshInstance3D2.cast_shadow = MeshInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY
 		$Camera3D/MeshInstance3D3.cast_shadow = MeshInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY
-	else:
-		$Camera3D.current = false
+		GlobalData.observer = self
 
 func _physics_process(delta):
 	
