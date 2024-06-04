@@ -70,7 +70,6 @@ shape = SubResource("8")
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.65, 0)
 cull_mask = 1048573
-current = true
 fov = 90.0
 size = 0.1
 near = 0.1
@@ -82,19 +81,16 @@ target_position = Vector3(0, 0, -50)
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Camera3D"]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.1, 0, -0.1)
-layers = 2
 mesh = SubResource("SphereMesh_au7lr")
 skeleton = NodePath("../..")
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="Camera3D"]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.1, 0, -0.1)
-layers = 2
 mesh = SubResource("SphereMesh_au7lr")
 skeleton = NodePath("../..")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.875, 0)
-layers = 2
 mesh = SubResource("7")
 
 [node name="Label" type="Label" parent="."]

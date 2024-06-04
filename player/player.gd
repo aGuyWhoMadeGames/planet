@@ -11,6 +11,23 @@ var hook_pos = Vector3()
 @export var gravity = 2
 @export var jump_power = 50
 
+
+func _ready():
+	tpllstr("83.34539020630596, -55.66442482887864");
+	up = position.normalized()
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	
+	$Camera3D/RayCast3D.add_exception(self)
+	
+	print(multiplayer.get_unique_id(),"     ",get_multiplayer_authority())
+	if multiplayer.get_unique_id() == get_multiplayer_authority():
+		print("join")
+		$Camera3D.current = true
+		$Camera3D/MeshInstance3D2.cast_shadow = MeshInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY
+		$Camera3D/MeshInstance3D3.cast_shadow = MeshInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY
+	else:
+		$Camera3D.current = false
+
 func _physics_process(delta):
 	
 	#up = position.normalized()
@@ -95,13 +112,6 @@ func _input(event):
 #	if Input.is_action_just_released("left_click"):
 #		hook_active = false
 
-func _ready():
-	tpllstr("83.34539020630596, -55.66442482887864");
-	up = position.normalized()
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	
-	$Camera3D/RayCast3D.add_exception(self)
-
 func align_with_y(xform, new_y):
 	xform.basis.y = new_y
 	xform.basis.x = -xform.basis.z.cross(new_y)
@@ -122,5 +132,5 @@ func tpll(lat,lon):
 	v.x = cos(lon)*z
 	v.z = sin(lon)*z
 	position = v
-	position = position.normalized() * ($"../planet".height+(1<<$"../planet".size-1))
+	position = position.normalized() * ($"../../planet".height+(1<<$"../../planet".size-1))
 	transform = align_with_y(transform,up)

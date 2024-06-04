@@ -1,4 +1,4 @@
-[gd_scene load_steps=65 format=3 uid="uid://diraimltgcruw"]
+[gd_scene load_steps=61 format=3 uid="uid://diraimltgcruw"]
 
 [ext_resource type="Script" path="res://planet/terrain.gd" id="1"]
 [ext_resource type="Script" path="res://multiplayer/spawner.gd" id="1_i4kjb"]
@@ -12,11 +12,9 @@
 [ext_resource type="Script" path="res://ui/in game/map player.gd" id="7"]
 [ext_resource type="Script" path="res://ui/key toggle.gd" id="8"]
 [ext_resource type="PackedScene" path="res://models/tree 1/tree 1v2.tscn" id="9"]
-[ext_resource type="Script" path="res://planet/Ocean.gd" id="10"]
 [ext_resource type="Material" uid="uid://btvq2kx8rxucp" path="res://ui/invert colors.tres" id="11_4oqrv"]
 [ext_resource type="Script" path="res://ui/in game/debug menu.gd" id="11_n541p"]
 [ext_resource type="FontFile" uid="uid://hkgna3pbdejj" path="res://ui/OpenSans-Regular.ttf" id="12"]
-[ext_resource type="Script" path="res://player/freecam.gd" id="13"]
 [ext_resource type="PackedScene" uid="uid://dcn34vivc37vm" path="res://ui/in game/pause.tscn" id="15_rxe8o"]
 [ext_resource type="Texture2D" uid="uid://337s7oc4kr71" path="res://textures/grass/Grass004_1K_Color.jpg" id="15_s50ri"]
 [ext_resource type="Shader" path="res://planet/atmosphere.gdshader" id="17_lx5dk"]
@@ -93,17 +91,6 @@ shader_parameter/atmosphere_radius = 10000.0
 shader_parameter/density = 19.5
 shader_parameter/falloff = 0.865
 shader_parameter/sky_color = Color(0.271, 0.855, 1, 1)
-
-[sub_resource type="StandardMaterial3D" id="3"]
-albedo_color = Color(0.356863, 0.537255, 1, 1)
-
-[sub_resource type="SphereMesh" id="2"]
-material = SubResource("3")
-radius = 8193.0
-height = 8193.0
-radial_segments = 512
-rings = 256
-is_hemisphere = true
 
 [sub_resource type="InputEventAction" id="InputEventAction_fvjft"]
 action = &"hide ui"
@@ -421,30 +408,20 @@ libraries = {
 speed_scale = 5.0
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 569, 0)
-visible = false
-projection = 1
+transform = Transform3D(0, -1.06581e-14, 1, -2.04543e-22, 1, 1.06581e-14, -1, -2.04543e-22, -2.18005e-36, 65021, 63, 1905)
+fov = 15.8
 size = 1024.0
-far = 8192.0
-
-[node name="player" parent="." instance=ExtResource("6")]
-transform = Transform3D(0.999999, -0.000924233, 0.000925024, 0.000925024, 0.999999, -0.000855211, -0.000924233, 0.000856066, 0.999999, 0.174, 8192.09, -0.126)
+far = 100000.0
 
 [node name="planet" parent="." instance=ExtResource("3_s1e41")]
 priority = true
 size = 14
-observer_path = NodePath("../player")
+observer_path = NodePath("..")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="planet"]
 mesh = SubResource("BoxMesh_xis6e")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("ShaderMaterial_isqwt")
-
-[node name="Ocean" type="MeshInstance3D" parent="."]
-visible = false
-mesh = SubResource("2")
-script = ExtResource("10")
-player_path = NodePath("../player")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -510,7 +487,6 @@ offset_right = 5.0
 offset_bottom = 5.0
 color = Color(1, 0.537255, 0, 1)
 script = ExtResource("7")
-player_path = NodePath("../../../../../../player")
 
 [node name="pause_menu" parent="CanvasLayer/Control" instance=ExtResource("15_rxe8o")]
 visible = false
@@ -538,7 +514,7 @@ script = ExtResource("5")
 priority = null
 size = 12
 mass = 66.0
-observer_path = NodePath("../player")
+observer_path = NodePath("..")
 material = ExtResource("2")
 height = 64.0
 heightmap = ExtResource("3")
@@ -572,7 +548,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32000, 0, -7000)
 script = ExtResource("5")
 priority = null
 mass = 4.0
-observer_path = NodePath("../player")
+observer_path = NodePath("..")
 material = ExtResource("2")
 height = 64.0
 heightmap = ExtResource("3")
@@ -611,7 +587,7 @@ script = ExtResource("5")
 priority = null
 size = 8
 mass = 1
-observer_path = NodePath("../player")
+observer_path = NodePath("..")
 material = ExtResource("2")
 height = 64.0
 heightmap = ExtResource("3")
@@ -650,7 +626,7 @@ script = ExtResource("5")
 priority = null
 size = 7
 mass = 0.128
-observer_path = NodePath("../player")
+observer_path = NodePath("..")
 material = SubResource("ShaderMaterial_jul6f")
 height = 4.0
 heightmap = ExtResource("3")
@@ -682,12 +658,6 @@ script = ExtResource("1")
 [node name="Spatial6" type="Node3D" parent="planet5"]
 transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0)
 script = ExtResource("1")
-
-[node name="Camera2" type="Camera3D" parent="."]
-fov = 90.0
-near = 0.1
-far = 524288.0
-script = ExtResource("13")
 
 [node name="Node3D" type="Node3D" parent="."]
 rotation_edit_mode = 2

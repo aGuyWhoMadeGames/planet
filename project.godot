@@ -22,10 +22,6 @@ GlobalData="*res://globals/global data.gd"
 Gravity="*res://globals/Gravity.gd"
 Multiplayer="*res://multiplayer/multiplayer.gd"
 
-[debug]
-
-settings/stdout/verbose_stdout=true
-
 [display]
 
 window/size/mode=2

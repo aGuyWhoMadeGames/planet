@@ -1,6 +1,11 @@
 extends Camera3D
 
 
+
+func _ready():
+	if str(multiplayer.get_unique_id()) == $"..".name:
+		queue_free()
+
 func _physics_process(delta):
 	var movement = Vector3.ZERO
 	if Input.is_action_pressed("ui_up"):
@@ -33,7 +38,7 @@ func _input(event):
 	
 	if Input.is_action_just_pressed("freecam"):
 		if current:
-			$"../player/Camera3D".current = true
+			$"../Camera3D".current = true
 		else:
 			current = true
-			position = $"../player".position
+			position = Vector3.ZERO

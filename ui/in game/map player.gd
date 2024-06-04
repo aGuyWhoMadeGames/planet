@@ -4,7 +4,7 @@ extends ColorRect
 @export var player_path:NodePath
 @onready var player = get_node(player_path)
 
-func _process(_delta):
+func process(_delta):
 	var v = player.position
 	v = v.normalized()
 	var lat = acos(v.y)/PI
