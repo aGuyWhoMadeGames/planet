@@ -1,10 +1,9 @@
 extends ColorRect
 
 
-@export var player_path:NodePath
-@onready var player = get_node(player_path)
+var player = Node3D.new()
 
-func process(_delta):
+func _process(_delta):
 	var v = player.position
 	v = v.normalized()
 	var lat = acos(v.y)/PI

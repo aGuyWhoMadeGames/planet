@@ -1,4 +1,4 @@
-[gd_scene load_steps=61 format=3 uid="uid://diraimltgcruw"]
+[gd_scene load_steps=62 format=3 uid="uid://diraimltgcruw"]
 
 [ext_resource type="Script" path="res://planet/terrain.gd" id="1"]
 [ext_resource type="Script" path="res://multiplayer/spawner.gd" id="1_i4kjb"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://ui/in game/map player.gd" id="7"]
 [ext_resource type="Script" path="res://ui/key toggle.gd" id="8"]
 [ext_resource type="PackedScene" path="res://models/tree 1/tree 1v2.tscn" id="9"]
+[ext_resource type="Script" path="res://ui/in game/map.gd" id="10_0pgd6"]
 [ext_resource type="Material" uid="uid://btvq2kx8rxucp" path="res://ui/invert colors.tres" id="11_4oqrv"]
 [ext_resource type="Script" path="res://ui/in game/debug menu.gd" id="11_n541p"]
 [ext_resource type="FontFile" uid="uid://hkgna3pbdejj" path="res://ui/OpenSans-Regular.ttf" id="12"]
@@ -107,7 +108,7 @@ cache/0/16/0/underline_thickness = 0.0
 cache/0/16/0/scale = 1.0
 cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="InputEventAction" id="4"]
+[sub_resource type="InputEventAction" id="InputEventAction_arblq"]
 action = &"map_toggle"
 
 [sub_resource type="FastNoiseLite" id="1"]
@@ -462,8 +463,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("8")
-key = SubResource("4")
+script = ExtResource("10_0pgd6")
+key = SubResource("InputEventAction_arblq")
 
 [node name="AspectRatioContainer" type="AspectRatioContainer" parent="CanvasLayer/Control/map"]
 layout_mode = 0
