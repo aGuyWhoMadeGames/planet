@@ -135,8 +135,8 @@ visible = false
 mesh = SubResource("CylinderMesh_31n2k")
 
 [node name="server" type="MultiplayerSynchronizer" parent="."]
-replication_interval = 0.1
-delta_interval = 0.1
+replication_interval = 0.5
+delta_interval = 0.5
 replication_config = SubResource("SceneReplicationConfig_3f7tu")
 
 [node name="client" type="MultiplayerSynchronizer" parent="."]
