@@ -76,6 +76,7 @@ func _input(event):
 	
 	if Input.is_action_just_pressed("unstuck"):
 		position = position.normalized() * ($"../../planet".height+(1<<$"../../planet".size-1))
+		velocity = Vector3.ZERO
 	
 	
 	if Input.is_action_just_pressed("left_click"):
