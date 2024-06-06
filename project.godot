@@ -20,10 +20,7 @@ config/icon="res://icon.png"
 Window="*res://globals/window.gd"
 GlobalData="*res://globals/global data.gd"
 Gravity="*res://globals/Gravity.gd"
-
-[debug]
-
-settings/stdout/verbose_stdout=true
+Multiplayer="*res://multiplayer/multiplayer.gd"
 
 [display]
 

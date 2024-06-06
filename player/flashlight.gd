@@ -6,5 +6,6 @@ func _process(_delta):
 	position = Vector3(0,1,0)
 
 func _input(_event):
-	if Input.is_action_just_pressed("flashlight"):
-		visible = !visible
+	if multiplayer.get_unique_id() == get_multiplayer_authority():
+		if Input.is_action_just_pressed("flashlight"):
+			visible = !visible

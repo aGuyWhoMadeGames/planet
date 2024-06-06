@@ -74,28 +74,18 @@ grow_vertical = 0
 layout_mode = 1
 anchor_right = 1.0
 anchor_bottom = 0.5
+offset_top = -222.0
+offset_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="ip" type="LineEdit" parent="Join/Control/Control"]
+[node name="ItemList" type="ItemList" parent="Join/Control/Control"]
 layout_mode = 1
-anchors_preset = -1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -50.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="join" type="Button" parent="Join/Control/Control"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -50.0
-grow_horizontal = 0
-grow_vertical = 2
-text = "Join"
 
 [node name="back" type="Button" parent="Join/Control"]
 layout_mode = 1
@@ -132,6 +122,5 @@ vertical_alignment = 1
 [connection signal="pressed" from="Main/VBoxContainer/host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="Main/VBoxContainer/join" to="." method="_on_join_menu_pressed"]
 [connection signal="pressed" from="Main/VBoxContainer/quit" to="." method="_on_quit_pressed"]
-[connection signal="text_submitted" from="Join/Control/Control/ip" to="." method="_on_ip_text_submitted"]
-[connection signal="pressed" from="Join/Control/Control/join" to="." method="_on_join_pressed"]
+[connection signal="item_activated" from="Join/Control/Control/ItemList" to="." method="_on_item_list_item_activated"]
 [connection signal="pressed" from="Join/Control/back" to="." method="_on_join_back_pressed"]
