@@ -27,9 +27,7 @@ func _ready():
 	
 	$Camera3D/RayCast3D.add_exception(self)
 	
-	print(multiplayer.get_unique_id(),"     ",get_multiplayer_authority())
 	if multiplayer.get_unique_id() == get_multiplayer_authority():
-		print("join")
 		$Camera3D.current = true
 		$Camera3D/MeshInstance3D2.cast_shadow = MeshInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY
 		$Camera3D/MeshInstance3D3.cast_shadow = MeshInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY
