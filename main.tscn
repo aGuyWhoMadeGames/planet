@@ -1,4 +1,4 @@
-[gd_scene load_steps=62 format=3 uid="uid://diraimltgcruw"]
+[gd_scene load_steps=63 format=3 uid="uid://diraimltgcruw"]
 
 [ext_resource type="Script" path="res://planet/terrain.gd" id="1"]
 [ext_resource type="Script" path="res://multiplayer/spawner.gd" id="1_i4kjb"]
@@ -16,6 +16,7 @@
 [ext_resource type="Material" uid="uid://btvq2kx8rxucp" path="res://ui/invert colors.tres" id="11_4oqrv"]
 [ext_resource type="Script" path="res://ui/in game/debug menu.gd" id="11_n541p"]
 [ext_resource type="FontFile" uid="uid://hkgna3pbdejj" path="res://ui/OpenSans-Regular.ttf" id="12"]
+[ext_resource type="Script" path="res://ui/in game/teleport.gd" id="14_4d0iq"]
 [ext_resource type="PackedScene" uid="uid://dcn34vivc37vm" path="res://ui/in game/pause.tscn" id="15_rxe8o"]
 [ext_resource type="Texture2D" uid="uid://337s7oc4kr71" path="res://textures/grass/Grass004_1K_Color.jpg" id="15_s50ri"]
 [ext_resource type="Shader" path="res://planet/atmosphere.gdshader" id="17_lx5dk"]
@@ -493,7 +494,7 @@ script = ExtResource("7")
 visible = false
 layout_mode = 1
 
-[node name="MenuButton" type="MenuButton" parent="CanvasLayer/Control/pause_menu"]
+[node name="Teleport" type="MenuButton" parent="CanvasLayer/Control/pause_menu"]
 material = ExtResource("11_4oqrv")
 layout_mode = 1
 anchors_preset = 1
@@ -505,6 +506,7 @@ grow_horizontal = 0
 theme_override_fonts/font = ExtResource("12")
 theme_override_font_sizes/font_size = 24
 text = "Teleport"
+script = ExtResource("14_4d0iq")
 
 [node name="tree 1" parent="." instance=ExtResource("9")]
 transform = Transform3D(5, 0, 0, 0, -5, 7.54979e-07, 0, -7.54979e-07, -5, -1, -8224, 0)

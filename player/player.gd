@@ -32,6 +32,7 @@ func _ready():
 		$Camera3D/MeshInstance3D2.cast_shadow = MeshInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY
 		$Camera3D/MeshInstance3D3.cast_shadow = MeshInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY
 		GlobalData.observer = self
+		GlobalData.player = self
 
 func _physics_process(delta):
 	
