@@ -1,10 +1,8 @@
 extends Camera3D
 
-
-
-func _ready():
-	if str(multiplayer.get_unique_id()) == $"..".name:
-		queue_free()
+func _init():
+	far = 524288
+	fov = 90
 
 func _physics_process(delta):
 	var movement = Vector3.ZERO
@@ -41,4 +39,4 @@ func _input(event):
 			$"../Camera3D".current = true
 		else:
 			current = true
-			position = Vector3.ZERO
+			position = Vector3(0,1.65,0)

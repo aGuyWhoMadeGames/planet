@@ -29,10 +29,12 @@ func _ready():
 	
 	if multiplayer.get_unique_id() == get_multiplayer_authority():
 		$Camera3D.current = true
-		$Camera3D/MeshInstance3D2.cast_shadow = MeshInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY
-		$Camera3D/MeshInstance3D3.cast_shadow = MeshInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY
+		$Camera3D/MeshInstance3D2.layers = 2
+		$Camera3D/MeshInstance3D3.layers = 2
 		GlobalData.observer = self
 		GlobalData.player = self
+		
+		add_child(load("res://player/freecam.gd").new())
 
 func _physics_process(delta):
 	

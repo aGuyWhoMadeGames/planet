@@ -96,7 +96,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.65, 0)
 cull_mask = 1048573
 fov = 90.0
 size = 0.1
-near = 0.1
 far = 524288.0
 
 [node name="RayCast3D" type="RayCast3D" parent="Camera3D"]
@@ -105,11 +104,27 @@ target_position = Vector3(0, 0, -50)
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Camera3D"]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.1, 0, -0.1)
+layers = 3
+cast_shadow = 0
 mesh = SubResource("SphereMesh_au7lr")
 skeleton = NodePath("../..")
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="Camera3D"]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.1, 0, -0.1)
+layers = 3
+cast_shadow = 0
+mesh = SubResource("SphereMesh_au7lr")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Camera3D"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.1, 0, -0.1)
+cast_shadow = 3
+mesh = SubResource("SphereMesh_au7lr")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Camera3D"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.1, 0, -0.1)
+cast_shadow = 3
 mesh = SubResource("SphereMesh_au7lr")
 skeleton = NodePath("../..")
 
