@@ -143,6 +143,7 @@ void fragment() {
 
 }
 "
+graph_offset = Vector2(-371.486, -132.71)
 varyings/global_pos = "0,4"
 nodes/vertex/0/position = Vector2(180, 160)
 nodes/vertex/4/node = SubResource("12")
@@ -175,7 +176,7 @@ nodes/fragment/14/node = SubResource("VisualShaderNodeVaryingGetter_37t4g")
 nodes/fragment/14/position = Vector2(-894.052, -314.365)
 nodes/fragment/15/node = SubResource("VisualShaderNodeSwitch_m1aib")
 nodes/fragment/15/position = Vector2(60, -260)
-nodes/fragment/connections = PackedInt32Array(9, 0, 7, 0, 7, 0, 10, 0, 12, 0, 10, 2, 4, 0, 10, 1, 13, 0, 7, 1, 14, 0, 9, 0, 10, 0, 0, 0, 7, 0, 15, 0)
+nodes/fragment/connections = PackedInt32Array(9, 0, 7, 0, 7, 0, 10, 0, 12, 0, 10, 2, 4, 0, 10, 1, 13, 0, 7, 1, 14, 0, 9, 0, 7, 0, 15, 0, 10, 0, 0, 0)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gvm5f"]
 render_priority = 0

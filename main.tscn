@@ -416,6 +416,7 @@ far = 100000.0
 priority = true
 size = 14
 observer_path = NodePath("..")
+material = ExtResource("2")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="planet"]
 mesh = SubResource("BoxMesh_xis6e")

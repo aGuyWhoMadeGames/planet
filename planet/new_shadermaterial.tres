@@ -1,4 +1,4 @@
-[gd_resource type="ShaderMaterial" load_steps=17 format=3 uid="uid://cfup815wm0vd8"]
+[gd_resource type="ShaderMaterial" load_steps=14 format=3 uid="uid://cfup815wm0vd8"]
 
 [ext_resource type="Texture2D" uid="uid://337s7oc4kr71" path="res://textures/grass/Grass004_1K_Color.jpg" id="1_ypo8v"]
 
@@ -16,19 +16,9 @@ parameter_name = "radius"
 varying_name = "global_pos"
 varying_type = 4
 
-[sub_resource type="VisualShaderNodeSwitch" id="VisualShaderNodeSwitch_m1aib"]
-default_input_values = [0, false, 1, 0.5, 2, 1.0]
-
 [sub_resource type="VisualShaderNodeTextureParameterTriplanar" id="VisualShaderNodeTextureParameterTriplanar_q4o72"]
 parameter_name = "Albedo"
 texture_type = 1
-
-[sub_resource type="VisualShaderNodeTextureParameterTriplanar" id="VisualShaderNodeTextureParameterTriplanar_sycik"]
-parameter_name = "normal"
-texture_type = 2
-
-[sub_resource type="VisualShaderNodeTextureParameterTriplanar" id="5"]
-parameter_name = "ao"
 
 [sub_resource type="VisualShaderNodeCompare" id="6"]
 default_input_values = [0, 0.0, 1, 1024.2, 2, 1e-05]
@@ -140,6 +130,7 @@ void fragment() {
 
 }
 "
+graph_offset = Vector2(-498.489, 52.0893)
 varyings/global_pos = "0,4"
 nodes/vertex/0/position = Vector2(180, 160)
 nodes/vertex/4/node = SubResource("12")
@@ -154,10 +145,6 @@ nodes/vertex/connections = PackedInt32Array(7, 0, 8, 0, 4, 0, 8, 1, 8, 0, 9, 0)
 nodes/fragment/0/position = Vector2(380, -160)
 nodes/fragment/4/node = SubResource("VisualShaderNodeTextureParameterTriplanar_q4o72")
 nodes/fragment/4/position = Vector2(-420, -120)
-nodes/fragment/5/node = SubResource("VisualShaderNodeTextureParameterTriplanar_sycik")
-nodes/fragment/5/position = Vector2(-340, 300)
-nodes/fragment/6/node = SubResource("5")
-nodes/fragment/6/position = Vector2(-340, 600)
 nodes/fragment/7/node = SubResource("6")
 nodes/fragment/7/position = Vector2(-340, -300)
 nodes/fragment/9/node = SubResource("VisualShaderNodeVectorLen_t82ke")
@@ -165,14 +152,12 @@ nodes/fragment/9/position = Vector2(-600, -280)
 nodes/fragment/10/node = SubResource("VisualShaderNodeSwitch_x3bm6")
 nodes/fragment/10/position = Vector2(0, -20)
 nodes/fragment/12/node = SubResource("13")
-nodes/fragment/12/position = Vector2(-340, 140)
+nodes/fragment/12/position = Vector2(-360, 220)
 nodes/fragment/13/node = SubResource("14")
 nodes/fragment/13/position = Vector2(-680, -180)
 nodes/fragment/14/node = SubResource("VisualShaderNodeVaryingGetter_37t4g")
 nodes/fragment/14/position = Vector2(-894.052, -314.365)
-nodes/fragment/15/node = SubResource("VisualShaderNodeSwitch_m1aib")
-nodes/fragment/15/position = Vector2(60, -260)
-nodes/fragment/connections = PackedInt32Array(9, 0, 7, 0, 7, 0, 10, 0, 12, 0, 10, 2, 4, 0, 10, 1, 13, 0, 7, 1, 14, 0, 9, 0, 10, 0, 0, 0, 7, 0, 15, 0)
+nodes/fragment/connections = PackedInt32Array(9, 0, 7, 0, 7, 0, 10, 0, 12, 0, 10, 2, 4, 0, 10, 1, 13, 0, 7, 1, 14, 0, 9, 0, 10, 0, 0, 0)
 
 [resource]
 render_priority = 0
