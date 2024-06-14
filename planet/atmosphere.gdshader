@@ -61,10 +61,13 @@ void fragment() {
 	vec3 mid_point = dir*mid_depth+orig;
 	float mid_alt = (length(mid_point)-planet_radius)/(atmosphere_radius-planet_radius);
 	
-	float densityAtPoint = (1.0-pow(mid_alt,0.5))*depth*density;
+	float densityAtPoint = exp(-mid_alt*0.1)*(1.0-mid_alt)*depth*density;
 	
 	vec4 color;
-	color.a = (1.0-pow(falloff, densityAtPoint))*smoothstep(-0.1,0.1,dot(normalize(mid_point),SUN_DIR));
+	
+	float light = smoothstep(-0.1,0.1,dot(normalize(mid_point),SUN_DIR));
+	
+	color.a = (1.0-pow(falloff, densityAtPoint))*light;
 	
 	color.rgb = sky_color;
 	
