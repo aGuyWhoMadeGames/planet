@@ -3,3 +3,6 @@
 
 # Os temporary files
 ~*
+
+# Blender
+*.blend1
