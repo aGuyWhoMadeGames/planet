@@ -147,14 +147,19 @@ func generate(cx:int,cz:int,lod):
 	cx = cx<<6
 	cz = cz<<6
 	
+	var verts := PackedVector3Array()
+	for x in range(65):
+		for y in range(65):
+			verts.append(get_vertex(x*s,y*s,cx,cz))
+	
 	var tris = []
 	
 	for x in range(64):
 		for y in range(64):
-			var p = get_vertex(x*s,y*s,cx,cz)
-			var px = get_vertex((x+1)*s,y*s,cx,cz)
-			var py = get_vertex(x*s,(y+1)*s,cx,cz)
-			var pxy = get_vertex((x+1)*s,(y+1)*s,cx,cz)
+			var p = verts[x*65+y+1]
+			var px = verts[x*65+y]
+			var py = verts[x*65+y+66]
+			var pxy = verts[x*65+y+65]
 			st.add_vertex(p)
 			st.add_vertex(px)
 			st.add_vertex(py)
