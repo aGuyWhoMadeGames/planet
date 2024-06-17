@@ -424,6 +424,7 @@ skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("ShaderMaterial_isqwt")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+process_mode = 3
 
 [node name="Control" type="Control" parent="CanvasLayer"]
 layout_mode = 3
