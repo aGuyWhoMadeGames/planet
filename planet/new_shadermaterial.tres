@@ -130,7 +130,6 @@ void fragment() {
 
 }
 "
-graph_offset = Vector2(-498.489, 52.0893)
 varyings/global_pos = "0,4"
 nodes/vertex/0/position = Vector2(180, 160)
 nodes/vertex/4/node = SubResource("12")

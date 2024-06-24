@@ -6,7 +6,6 @@ extends Node3D
 @export var size = 10
 @export var mass = 1000.0
 @export var lod = 0
-@export var observer_path:NodePath
 @export var material:Material
 #export var tree:PackedScene
 #export var far_tree:Mesh
