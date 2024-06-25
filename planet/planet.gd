@@ -7,13 +7,10 @@ extends Node3D
 @export var mass = 1000.0
 @export var lod = 0
 @export var material:Material
-#export var tree:PackedScene
-#export var far_tree:Mesh
 @export var height = 10.0
-@export var heightmap:Image 
-@export var noise:FastNoiseLite 
+@export var generator:PlanetGenerator
 
-func refresh_setget(_a):
+func refresh_setget(_a=null):
 	for i in get_children():
 		if "reload" in i:
 			i.reload = true

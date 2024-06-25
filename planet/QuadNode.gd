@@ -5,7 +5,7 @@ class_name QuadNode
 var center:Vector2
 var center3:Vector3
 var lod:int
-var root:Node3D
+var root:Terrain
 var transform:Transform3D
 var scenario:RID
 var space:RID
@@ -32,19 +32,12 @@ func _init(c,l,r,t,s,p):
 	center3 = transform * (Vector3(center.x,1<<root.size-1,center.y)).normalized()*(1<<root.size-1)
 	build()
 
-func _ready():
-	pass
-	#init()
-
 func _process(_delta):
 	if not queued:
 		if leaf:
 			leaf = not checkForSplit()
 		else:
 			checkForDelete()
-
-func init():
-	build()
 
 func build():
 	var s = 32<<lod
@@ -78,18 +71,13 @@ func checkForSplit():
 	var pos = GlobalData.observer.position-root.global_position
 	d = (pos-center3).length()
 	if d < 64<<lod:
-#		split()
-#		return true
 		WorkerThreadPool.add_task(self.split)
-#		root.mutex.lock()
-#		root.queue.append(self)
-#		root.mutex.unlock()
+		
 		queued = true
 		return true
 	return false
 
 func split():
-	#print("split "+str(lod))
 	var s = 16<<lod
 	call_deferred("add_child",qnode.new(center+Vector2(s,s),lod-1,root,transform,scenario,space))
 	call_deferred("add_child",qnode.new(center+Vector2(-s,s),lod-1,root,transform,scenario,space))
@@ -107,34 +95,13 @@ func _exit_tree():
 		PhysicsServer3D.free_rid(shape)
 		PhysicsServer3D.free_rid(collider)
 
-func get_height(v:Vector3,sample:bool):
-	#return noise.get_noise_3dv(v)*height
-	var heightmap = root.heightmap
-	var lat = acos(v.y)
-	var long = acos(v.x/max(Vector2(v.x,v.z).length(),0.01))
-	long *= -sign(v.z)
-	var x = (long/(PI)+1)*heightmap.get_height()
-	var y = (lat/(PI*2))*heightmap.get_width()
-	var h:float
-	if sample:
-		h = heightmap.get_pixel(int(x)%heightmap.get_width(),int(y)%heightmap.get_height()).r
-		var hx = heightmap.get_pixel(int(x+1)%heightmap.get_width(),int(y)%heightmap.get_height()).r
-		var hy = heightmap.get_pixel(int(x)%heightmap.get_width(),int(y+1)%heightmap.get_height()).r
-		var hxy = heightmap.get_pixel(int(x+1)%heightmap.get_width(),int(y+1)%heightmap.get_height()).r
-		var h0 = lerp(h,hx,fmod(x,1))
-		var h1 = lerp(hy,hxy,fmod(x,1))
-		h = lerp(h0,h1,fmod(y,1))
-	else:
-		h = heightmap.get_pixel(int(x)%heightmap.get_width(),int(y)%heightmap.get_height()).r
-	return h*root.height
-
 func get_vertex(x,z,cx,cz):
 	var gx = x+cx
 	var gz = z+cz
 	var v := Vector3(gx,1<<root.size-1,gz+0.1)
 	var n = v.normalized()
 	v = n*(1<<root.size-1)
-	var h = get_height(transform * (n),true)
+	var h = root.generator._get_height(transform * n)*root.height
 	v += n * h
 	v -= Vector3(cx,0,cz)
 	return v

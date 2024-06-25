@@ -1,8 +1,7 @@
-[gd_scene load_steps=22 format=3 uid="uid://m1udv707ijle"]
+[gd_scene load_steps=20 format=3 uid="uid://m1udv707ijle"]
 
 [ext_resource type="Script" path="res://planet/planet.gd" id="1_dxjj7"]
 [ext_resource type="Texture2D" uid="uid://337s7oc4kr71" path="res://textures/grass/Grass004_1K_Color.jpg" id="2_xtp05"]
-[ext_resource type="Image" uid="uid://dpc3ylu65c1r4" path="res://planet/gebco_08_rev_elev_21600x10800.png" id="3_y18js"]
 [ext_resource type="Script" path="res://planet/terrain.gd" id="4_0b20d"]
 
 [sub_resource type="VisualShaderNodeSwitch" id="VisualShaderNodeSwitch_x3bm6"]
@@ -189,15 +188,11 @@ shader_parameter/triplanar_offset = null
 shader_parameter/triplanar_sharpness = 0.5
 shader_parameter/Albedo = ExtResource("2_xtp05")
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_3x2ls"]
-
 [node name="planet" type="Node3D"]
 script = ExtResource("1_dxjj7")
 priority = null
 material = SubResource("ShaderMaterial_gvm5f")
 height = 64.0
-heightmap = ExtResource("3_y18js")
-noise = SubResource("FastNoiseLite_3x2ls")
 metadata/_edit_group_ = true
 
 [node name="Node3D" type="Node3D" parent="."]

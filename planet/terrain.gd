@@ -6,27 +6,21 @@ class_name Terrain
 var size
 var lod
 var material:Material
-#export var tree:PackedScene
-#export var far_tree:Mesh
 var height = 10.0
-var heightmap:Image
-var noise:FastNoiseLite
-#export var tree_noise:OpenSimplexNoise
+var generator:PlanetGenerator
 
 
 func _ready():
-	refresh(0)
-	#rebuild()
+	refresh()
 
 func get_params():
 	size = get_parent().size
 	lod = get_parent().lod
 	material = get_parent().material
 	height = get_parent().height
-	heightmap = get_parent().heightmap
-	noise = get_parent().noise
+	generator = get_parent().generator
 
-func refresh(_a):
+func refresh(_a=null):
 	get_params()
 	for i in get_children():
 		i.queue_free()

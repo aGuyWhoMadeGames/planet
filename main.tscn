@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=3 uid="uid://diraimltgcruw"]
+[gd_scene load_steps=70 format=3 uid="uid://diraimltgcruw"]
 
 [ext_resource type="Script" path="res://planet/terrain.gd" id="1"]
 [ext_resource type="Script" path="res://multiplayer/spawner.gd" id="1_i4kjb"]
@@ -11,7 +11,9 @@
 [ext_resource type="Script" path="res://planet/planet.gd" id="5"]
 [ext_resource type="PackedScene" uid="uid://cffie56u3bqwu" path="res://player/player.tscn" id="6"]
 [ext_resource type="Script" path="res://ui/in game/map player.gd" id="7"]
+[ext_resource type="Image" uid="uid://dpc3ylu65c1r4" path="res://planet/gebco_08_rev_elev_21600x10800.png" id="7_ebjej"]
 [ext_resource type="Script" path="res://ui/key toggle.gd" id="8"]
+[ext_resource type="Script" path="res://planet/PlanetGeneratorImage.gd" id="8_38q6p"]
 [ext_resource type="PackedScene" path="res://models/tree 1/tree 1v2.tscn" id="9"]
 [ext_resource type="Script" path="res://ui/in game/map.gd" id="10_0pgd6"]
 [ext_resource type="Material" uid="uid://btvq2kx8rxucp" path="res://ui/invert colors.tres" id="11_4oqrv"]
@@ -78,6 +80,11 @@ _data = {
 "day_night": SubResource("Animation_rbn0s")
 }
 
+[sub_resource type="Resource" id="Resource_twe7t"]
+script = ExtResource("8_38q6p")
+heightmap = ExtResource("7_ebjej")
+filter = true
+
 [sub_resource type="BoxMesh" id="BoxMesh_xis6e"]
 flip_faces = true
 size = Vector3(20000, 20000, 20000)
@@ -109,7 +116,15 @@ cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 [sub_resource type="InputEventAction" id="InputEventAction_arblq"]
 action = &"map_toggle"
 
-[sub_resource type="FastNoiseLite" id="1"]
+[sub_resource type="Resource" id="Resource_4yqmw"]
+script = ExtResource("8_38q6p")
+heightmap = ExtResource("3")
+filter = null
+
+[sub_resource type="Resource" id="Resource_a6v78"]
+script = ExtResource("8_38q6p")
+heightmap = ExtResource("3")
+filter = null
 
 [sub_resource type="BoxMesh" id="BoxMesh_au0x1"]
 flip_faces = true
@@ -123,6 +138,11 @@ shader_parameter/atmosphere_radius = 1500.0
 shader_parameter/density = 19.5
 shader_parameter/falloff = 0.865
 shader_parameter/sky_color = Color(1, 0.713726, 0.282353, 1)
+
+[sub_resource type="Resource" id="Resource_u0e8f"]
+script = ExtResource("8_38q6p")
+heightmap = ExtResource("3")
+filter = null
 
 [sub_resource type="BoxMesh" id="BoxMesh_wmuwf"]
 flip_faces = true
@@ -321,6 +341,11 @@ shader_parameter/triplanar_offset = null
 shader_parameter/triplanar_sharpness = 0.5
 shader_parameter/Albedo = ExtResource("15_s50ri")
 
+[sub_resource type="Resource" id="Resource_xs4sh"]
+script = ExtResource("8_38q6p")
+heightmap = ExtResource("3")
+filter = null
+
 [sub_resource type="BoxMesh" id="BoxMesh_t6w0v"]
 flip_faces = true
 size = Vector3(300, 300, 300)
@@ -416,6 +441,7 @@ far = 100000.0
 priority = true
 size = 14
 material = ExtResource("2")
+generator = SubResource("Resource_twe7t")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="planet"]
 mesh = SubResource("BoxMesh_xis6e")
@@ -517,8 +543,7 @@ size = 12
 mass = 66.0
 material = ExtResource("2")
 height = 64.0
-heightmap = ExtResource("3")
-noise = SubResource("1")
+generator = SubResource("Resource_4yqmw")
 
 [node name="Node3D" type="Node3D" parent="planet2"]
 script = ExtResource("1")
@@ -550,8 +575,7 @@ priority = null
 mass = 4.0
 material = ExtResource("2")
 height = 64.0
-heightmap = ExtResource("3")
-noise = SubResource("1")
+generator = SubResource("Resource_a6v78")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="planet3"]
 mesh = SubResource("BoxMesh_au0x1")
@@ -588,8 +612,7 @@ size = 8
 mass = 1
 material = ExtResource("2")
 height = 64.0
-heightmap = ExtResource("3")
-noise = SubResource("1")
+generator = SubResource("Resource_u0e8f")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="planet4"]
 mesh = SubResource("BoxMesh_wmuwf")
@@ -626,8 +649,7 @@ size = 7
 mass = 0.128
 material = SubResource("ShaderMaterial_jul6f")
 height = 4.0
-heightmap = ExtResource("3")
-noise = SubResource("1")
+generator = SubResource("Resource_xs4sh")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="planet5"]
 mesh = SubResource("BoxMesh_t6w0v")
