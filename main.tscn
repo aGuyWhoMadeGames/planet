@@ -1,4 +1,4 @@
-[gd_scene load_steps=70 format=3 uid="uid://diraimltgcruw"]
+[gd_scene load_steps=87 format=3 uid="uid://diraimltgcruw"]
 
 [ext_resource type="Script" path="res://planet/terrain.gd" id="1"]
 [ext_resource type="Script" path="res://multiplayer/spawner.gd" id="1_i4kjb"]
@@ -24,6 +24,7 @@
 [ext_resource type="Texture2D" uid="uid://337s7oc4kr71" path="res://textures/grass/Grass004_1K_Color.jpg" id="15_s50ri"]
 [ext_resource type="Shader" path="res://planet/atmosphere.gdshader" id="17_lx5dk"]
 [ext_resource type="PackedScene" uid="uid://c63wijximmsu4" path="res://space station.tscn" id="18_64sir"]
+[ext_resource type="Script" path="res://planet/PlanetGeneratorNoise.gd" id="21_qnna0"]
 [ext_resource type="Shader" uid="uid://c8003nfwndhnd" path="res://normalize.tres" id="22_hvquw"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ev4d5"]
@@ -116,10 +117,190 @@ cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 [sub_resource type="InputEventAction" id="InputEventAction_arblq"]
 action = &"map_toggle"
 
-[sub_resource type="Resource" id="Resource_4yqmw"]
-script = ExtResource("8_38q6p")
-heightmap = ExtResource("3")
-filter = null
+[sub_resource type="VisualShaderNodeSwitch" id="VisualShaderNodeSwitch_x3bm6"]
+default_input_values = [0, false, 1, Vector3(1, 1, 1), 2, Vector3(0.1, 0, 0)]
+op_type = 4
+
+[sub_resource type="VisualShaderNodeColorParameter" id="13"]
+parameter_name = "water"
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="14"]
+parameter_name = "radius"
+
+[sub_resource type="VisualShaderNodeVaryingGetter" id="VisualShaderNodeVaryingGetter_37t4g"]
+varying_name = "global_pos"
+varying_type = 4
+
+[sub_resource type="VisualShaderNodeTextureParameterTriplanar" id="VisualShaderNodeTextureParameterTriplanar_q4o72"]
+parameter_name = "Albedo"
+texture_type = 1
+
+[sub_resource type="VisualShaderNodeCompare" id="6"]
+default_input_values = [0, 0.0, 1, 1024.2, 2, 1e-05]
+function = 2
+
+[sub_resource type="VisualShaderNodeVectorLen" id="VisualShaderNodeVectorLen_t82ke"]
+
+[sub_resource type="VisualShaderNodeInput" id="12"]
+input_name = "vertex"
+
+[sub_resource type="VisualShaderNodeTransformParameter" id="15"]
+parameter_name = "pos"
+
+[sub_resource type="VisualShaderNodeTransformVecMult" id="16"]
+
+[sub_resource type="VisualShaderNodeVaryingSetter" id="VisualShaderNodeVaryingSetter_cgrmc"]
+varying_name = "global_pos"
+varying_type = 4
+
+[sub_resource type="VisualShader" id="VisualShader_treyp"]
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
+
+
+// Varyings
+varying vec3 global_pos;
+
+uniform mat4 pos;
+uniform float radius;
+uniform sampler2D Albedo : source_color;
+uniform vec4 water : source_color;
+
+
+// TextureParameterTriplanar
+	vec4 triplanar_texture(sampler2D p_sampler, vec3 p_weights, vec3 p_triplanar_pos) {
+		vec4 samp = vec4(0.0);
+		samp += texture(p_sampler, p_triplanar_pos.xy) * p_weights.z;
+		samp += texture(p_sampler, p_triplanar_pos.xz) * p_weights.y;
+		samp += texture(p_sampler, p_triplanar_pos.zy * vec2(-1.0, 1.0)) * p_weights.x;
+		return samp;
+	}
+
+	uniform vec3 triplanar_scale = vec3(1.0, 1.0, 1.0);
+	uniform vec3 triplanar_offset;
+	uniform float triplanar_sharpness = 0.5;
+
+	varying vec3 triplanar_power_normal;
+	varying vec3 triplanar_pos;
+
+void vertex() {
+// TextureParameterTriplanar
+	{
+		triplanar_power_normal = pow(abs(NORMAL), vec3(triplanar_sharpness));
+		triplanar_power_normal /= dot(triplanar_power_normal, vec3(1.0));
+		triplanar_pos = VERTEX * triplanar_scale + triplanar_offset;
+		triplanar_pos *= vec3(1.0, -1.0, 1.0);
+	}
+// TransformParameter:7
+	mat4 n_out7p0 = pos;
+
+
+// Input:4
+	vec3 n_out4p0 = VERTEX;
+
+
+// TransformVectorMult:8
+	vec3 n_out8p0 = (n_out7p0 * vec4(n_out4p0, 1.0)).xyz;
+
+
+// VaryingSetter:9
+	global_pos = n_out8p0;
+
+
+}
+
+void fragment() {
+// VaryingGetter:14
+	vec3 n_out14p0 = global_pos;
+
+
+// VectorLen:9
+	float n_out9p0 = length(n_out14p0);
+
+
+// FloatParameter:13
+	float n_out13p0 = radius;
+
+
+// Compare:7
+	bool n_out7p0 = n_out9p0 > n_out13p0;
+
+
+// TextureParameterTriplanar:4
+	vec4 n_out4p0 = triplanar_texture(Albedo, triplanar_power_normal, triplanar_pos);
+
+
+// ColorParameter:12
+	vec4 n_out12p0 = water;
+
+
+	vec3 n_out10p0;
+// Switch:10
+	n_out10p0 = mix(vec3(n_out12p0.xyz), vec3(n_out4p0.xyz), float(n_out7p0));
+
+
+// Output:0
+	ALBEDO = n_out10p0;
+
+
+}
+"
+varyings/global_pos = "0,4"
+nodes/vertex/0/position = Vector2(180, 160)
+nodes/vertex/4/node = SubResource("12")
+nodes/vertex/4/position = Vector2(-1120, 320)
+nodes/vertex/7/node = SubResource("15")
+nodes/vertex/7/position = Vector2(-1120, 140)
+nodes/vertex/8/node = SubResource("16")
+nodes/vertex/8/position = Vector2(-760, 180)
+nodes/vertex/9/node = SubResource("VisualShaderNodeVaryingSetter_cgrmc")
+nodes/vertex/9/position = Vector2(-480, 200)
+nodes/vertex/connections = PackedInt32Array(7, 0, 8, 0, 4, 0, 8, 1, 8, 0, 9, 0)
+nodes/fragment/0/position = Vector2(380, -160)
+nodes/fragment/4/node = SubResource("VisualShaderNodeTextureParameterTriplanar_q4o72")
+nodes/fragment/4/position = Vector2(-420, -120)
+nodes/fragment/7/node = SubResource("6")
+nodes/fragment/7/position = Vector2(-340, -300)
+nodes/fragment/9/node = SubResource("VisualShaderNodeVectorLen_t82ke")
+nodes/fragment/9/position = Vector2(-600, -280)
+nodes/fragment/10/node = SubResource("VisualShaderNodeSwitch_x3bm6")
+nodes/fragment/10/position = Vector2(0, -20)
+nodes/fragment/12/node = SubResource("13")
+nodes/fragment/12/position = Vector2(-360, 220)
+nodes/fragment/13/node = SubResource("14")
+nodes/fragment/13/position = Vector2(-680, -180)
+nodes/fragment/14/node = SubResource("VisualShaderNodeVaryingGetter_37t4g")
+nodes/fragment/14/position = Vector2(-894.052, -314.365)
+nodes/fragment/connections = PackedInt32Array(9, 0, 7, 0, 7, 0, 10, 0, 12, 0, 10, 2, 4, 0, 10, 1, 13, 0, 7, 1, 14, 0, 9, 0, 10, 0, 0, 0)
+
+[sub_resource type="Gradient" id="Gradient_rjko8"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.581033, 0.581033, 0.581033, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_7le0f"]
+gradient = SubResource("Gradient_rjko8")
+width = 1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u2knd"]
+render_priority = 0
+shader = SubResource("VisualShader_treyp")
+shader_parameter/pos = null
+shader_parameter/radius = 2048.1
+shader_parameter/water = Color(0.38, 0.38, 0.38, 1)
+shader_parameter/triplanar_scale = Vector3(0.25, 0.25, 0.25)
+shader_parameter/triplanar_offset = null
+shader_parameter/triplanar_sharpness = 0.5
+shader_parameter/Albedo = SubResource("GradientTexture1D_7le0f")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ie8pk"]
+frequency = 0.0017
+fractal_octaves = 8
+
+[sub_resource type="Resource" id="Resource_sxh3p"]
+script = ExtResource("21_qnna0")
+scale = 1000.0
+ocean_value = 0.0
+noise = SubResource("FastNoiseLite_ie8pk")
 
 [sub_resource type="Resource" id="Resource_a6v78"]
 script = ExtResource("8_38q6p")
@@ -157,21 +338,21 @@ shader_parameter/density = 19.5
 shader_parameter/falloff = 0.865
 shader_parameter/sky_color = Color(0.458824, 0.384314, 1, 1)
 
-[sub_resource type="VisualShaderNodeSwitch" id="VisualShaderNodeSwitch_x3bm6"]
+[sub_resource type="VisualShaderNodeSwitch" id="VisualShaderNodeSwitch_jf6c2"]
 default_input_values = [0, false, 1, Vector3(1, 1, 1), 2, Vector3(0.1, 0, 0)]
 op_type = 4
 
-[sub_resource type="VisualShaderNodeColorParameter" id="13"]
+[sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_4fs1r"]
 parameter_name = "water"
 
-[sub_resource type="VisualShaderNodeFloatParameter" id="14"]
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_e2c6h"]
 parameter_name = "radius"
 
-[sub_resource type="VisualShaderNodeVaryingGetter" id="VisualShaderNodeVaryingGetter_37t4g"]
+[sub_resource type="VisualShaderNodeVaryingGetter" id="VisualShaderNodeVaryingGetter_aedme"]
 varying_name = "global_pos"
 varying_type = 4
 
-[sub_resource type="VisualShaderNodeTextureParameterTriplanar" id="VisualShaderNodeTextureParameterTriplanar_q4o72"]
+[sub_resource type="VisualShaderNodeTextureParameterTriplanar" id="VisualShaderNodeTextureParameterTriplanar_o80xb"]
 parameter_name = "Albedo"
 texture_type = 1
 
@@ -182,25 +363,25 @@ texture_type = 2
 [sub_resource type="VisualShaderNodeTextureParameterTriplanar" id="5"]
 parameter_name = "ao"
 
-[sub_resource type="VisualShaderNodeCompare" id="6"]
+[sub_resource type="VisualShaderNodeCompare" id="VisualShaderNodeCompare_xedd0"]
 default_input_values = [0, 0.0, 1, 1024.2, 2, 1e-05]
 function = 2
 
-[sub_resource type="VisualShaderNodeVectorLen" id="VisualShaderNodeVectorLen_t82ke"]
+[sub_resource type="VisualShaderNodeVectorLen" id="VisualShaderNodeVectorLen_deomk"]
 
-[sub_resource type="VisualShaderNodeInput" id="12"]
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_o5sab"]
 input_name = "vertex"
 
-[sub_resource type="VisualShaderNodeTransformParameter" id="15"]
+[sub_resource type="VisualShaderNodeTransformParameter" id="VisualShaderNodeTransformParameter_2nt34"]
 parameter_name = "pos"
 
-[sub_resource type="VisualShaderNodeTransformVecMult" id="16"]
+[sub_resource type="VisualShaderNodeTransformVecMult" id="VisualShaderNodeTransformVecMult_hi7mo"]
 
-[sub_resource type="VisualShaderNodeVaryingSetter" id="VisualShaderNodeVaryingSetter_cgrmc"]
+[sub_resource type="VisualShaderNodeVaryingSetter" id="VisualShaderNodeVaryingSetter_ux74p"]
 varying_name = "global_pos"
 varying_type = 4
 
-[sub_resource type="VisualShader" id="VisualShader_treyp"]
+[sub_resource type="VisualShader" id="VisualShader_15bg1"]
 code = "shader_type spatial;
 render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
 
@@ -300,39 +481,39 @@ void fragment() {
 "
 varyings/global_pos = "0,4"
 nodes/vertex/0/position = Vector2(180, 160)
-nodes/vertex/4/node = SubResource("12")
+nodes/vertex/4/node = SubResource("VisualShaderNodeInput_o5sab")
 nodes/vertex/4/position = Vector2(-1120, 320)
-nodes/vertex/7/node = SubResource("15")
+nodes/vertex/7/node = SubResource("VisualShaderNodeTransformParameter_2nt34")
 nodes/vertex/7/position = Vector2(-1120, 140)
-nodes/vertex/8/node = SubResource("16")
+nodes/vertex/8/node = SubResource("VisualShaderNodeTransformVecMult_hi7mo")
 nodes/vertex/8/position = Vector2(-760, 180)
-nodes/vertex/9/node = SubResource("VisualShaderNodeVaryingSetter_cgrmc")
+nodes/vertex/9/node = SubResource("VisualShaderNodeVaryingSetter_ux74p")
 nodes/vertex/9/position = Vector2(-480, 200)
 nodes/vertex/connections = PackedInt32Array(7, 0, 8, 0, 4, 0, 8, 1, 8, 0, 9, 0)
 nodes/fragment/0/position = Vector2(380, -160)
-nodes/fragment/4/node = SubResource("VisualShaderNodeTextureParameterTriplanar_q4o72")
+nodes/fragment/4/node = SubResource("VisualShaderNodeTextureParameterTriplanar_o80xb")
 nodes/fragment/4/position = Vector2(-420, -120)
 nodes/fragment/5/node = SubResource("VisualShaderNodeTextureParameterTriplanar_sycik")
 nodes/fragment/5/position = Vector2(-340, 300)
 nodes/fragment/6/node = SubResource("5")
 nodes/fragment/6/position = Vector2(-340, 600)
-nodes/fragment/7/node = SubResource("6")
+nodes/fragment/7/node = SubResource("VisualShaderNodeCompare_xedd0")
 nodes/fragment/7/position = Vector2(-340, -300)
-nodes/fragment/9/node = SubResource("VisualShaderNodeVectorLen_t82ke")
+nodes/fragment/9/node = SubResource("VisualShaderNodeVectorLen_deomk")
 nodes/fragment/9/position = Vector2(-600, -280)
-nodes/fragment/10/node = SubResource("VisualShaderNodeSwitch_x3bm6")
+nodes/fragment/10/node = SubResource("VisualShaderNodeSwitch_jf6c2")
 nodes/fragment/10/position = Vector2(0, -20)
-nodes/fragment/12/node = SubResource("13")
+nodes/fragment/12/node = SubResource("VisualShaderNodeColorParameter_4fs1r")
 nodes/fragment/12/position = Vector2(-340, 140)
-nodes/fragment/13/node = SubResource("14")
+nodes/fragment/13/node = SubResource("VisualShaderNodeFloatParameter_e2c6h")
 nodes/fragment/13/position = Vector2(-680, -180)
-nodes/fragment/14/node = SubResource("VisualShaderNodeVaryingGetter_37t4g")
+nodes/fragment/14/node = SubResource("VisualShaderNodeVaryingGetter_aedme")
 nodes/fragment/14/position = Vector2(-894.052, -314.365)
 nodes/fragment/connections = PackedInt32Array(9, 0, 7, 0, 7, 0, 10, 0, 12, 0, 10, 2, 4, 0, 10, 1, 13, 0, 7, 1, 5, 0, 0, 9, 14, 0, 9, 0, 10, 0, 0, 0)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jul6f"]
 render_priority = 0
-shader = SubResource("VisualShader_treyp")
+shader = SubResource("VisualShader_15bg1")
 shader_parameter/pos = null
 shader_parameter/radius = 64.02
 shader_parameter/water = Color(0.356863, 0.537255, 1, 1)
@@ -541,9 +722,9 @@ script = ExtResource("5")
 priority = null
 size = 12
 mass = 66.0
-material = ExtResource("2")
+material = SubResource("ShaderMaterial_u2knd")
 height = 64.0
-generator = SubResource("Resource_4yqmw")
+generator = SubResource("Resource_sxh3p")
 
 [node name="Node3D" type="Node3D" parent="planet2"]
 script = ExtResource("1")
