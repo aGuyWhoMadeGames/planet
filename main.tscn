@@ -1,4 +1,4 @@
-[gd_scene load_steps=87 format=3 uid="uid://diraimltgcruw"]
+[gd_scene load_steps=88 format=3 uid="uid://diraimltgcruw"]
 
 [ext_resource type="Script" path="res://planet/terrain.gd" id="1"]
 [ext_resource type="Script" path="res://multiplayer/spawner.gd" id="1_i4kjb"]
@@ -305,7 +305,7 @@ noise = SubResource("FastNoiseLite_ie8pk")
 [sub_resource type="Resource" id="Resource_a6v78"]
 script = ExtResource("8_38q6p")
 heightmap = ExtResource("3")
-filter = null
+filter = false
 
 [sub_resource type="BoxMesh" id="BoxMesh_au0x1"]
 flip_faces = true
@@ -320,10 +320,14 @@ shader_parameter/density = 19.5
 shader_parameter/falloff = 0.865
 shader_parameter/sky_color = Color(1, 0.713726, 0.282353, 1)
 
-[sub_resource type="Resource" id="Resource_u0e8f"]
-script = ExtResource("8_38q6p")
-heightmap = ExtResource("3")
-filter = null
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_d2m21"]
+cellular_distance_function = 1
+
+[sub_resource type="Resource" id="Resource_m47sy"]
+script = ExtResource("21_qnna0")
+scale = 100.0
+ocean_value = -1.0
+noise = SubResource("FastNoiseLite_d2m21")
 
 [sub_resource type="BoxMesh" id="BoxMesh_wmuwf"]
 flip_faces = true
@@ -793,7 +797,7 @@ size = 8
 mass = 1
 material = ExtResource("2")
 height = 64.0
-generator = SubResource("Resource_u0e8f")
+generator = SubResource("Resource_m47sy")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="planet4"]
 mesh = SubResource("BoxMesh_wmuwf")
