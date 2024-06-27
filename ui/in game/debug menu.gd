@@ -21,9 +21,7 @@ func _process(_delta):
 func _input(_event):
 	if Input.is_action_just_pressed("toggle_wireframe"):
 		if wireframe:
-			$"../../../../planet/OccluderInstance3D".hide()
 			RenderingServer.viewport_set_debug_draw(get_viewport().get_viewport_rid(),RenderingServer.VIEWPORT_DEBUG_DRAW_DISABLED)
 		else:
-			$"../../../../planet/OccluderInstance3D".show()
 			RenderingServer.viewport_set_debug_draw(get_viewport().get_viewport_rid(),RenderingServer.VIEWPORT_DEBUG_DRAW_WIREFRAME)
 		wireframe = not wireframe
