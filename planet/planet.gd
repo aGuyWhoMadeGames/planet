@@ -10,6 +10,19 @@ extends Node3D
 @export var height = 10.0
 @export var generator:PlanetGenerator
 
+func _init():
+	for i in [
+		Vector3(0,0,0),
+		Vector3(90,0,0),
+		Vector3(90,90,0),
+		Vector3(90,180,0),
+		Vector3(90,-90,0),
+		Vector3(180,0,0),
+	]:
+		var face = Terrain.new()
+		face.rotation_degrees = i
+		add_child(face)
+
 func refresh_setget(_a=null):
 	for i in get_children():
 		if "reload" in i:
@@ -17,5 +30,6 @@ func refresh_setget(_a=null):
 
 func _ready():
 	Gravity.add_body(self)
-	refresh = true
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	
+	refresh = true
