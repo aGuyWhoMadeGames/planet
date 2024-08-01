@@ -26,9 +26,7 @@ func _ready():
 
 func _process(_delta):
 	socket.poll()
-	#print("server poll")
-	#log_message(str(socket.get_ready_state()))
-
+	
 	if socket.get_ready_state() == WebSocketPeer.STATE_OPEN:
 		while socket.get_available_packet_count():
 			var packet = socket.get_packet().get_string_from_ascii()
@@ -76,7 +74,6 @@ func _exit_tree():
 
 func log_message(_text):
 	pass
-	#$"../Label".text += text + "\n"
 
 func ping():
 	socket.send_text("Ping")

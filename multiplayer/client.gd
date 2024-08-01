@@ -84,7 +84,6 @@ func _exit_tree():
 
 func log_message(_text):
 	pass
-	#$"../Label".text += text + "\n"
 
 func ping():
 	socket.send_text("Ping")

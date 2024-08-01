@@ -21,7 +21,6 @@ func _process(_delta):
 	for id in ids:
 		var socket:WebSocketPeer = ids[id]
 		socket.poll()
-		#print("signal poll")
 		
 		if socket.get_ready_state() == WebSocketPeer.STATE_CLOSED:
 			remove_client.bind(id).call_deferred()
@@ -81,7 +80,7 @@ func _exit_tree():
 	tcp_server.stop()
 
 func log_message(text):
-	$"../Label".text += text + "\n"
+	pass
 
 func ping():
 	for socket in clients: socket.send_text("Ping")
