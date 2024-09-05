@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode unshaded,depth_draw_never;//,depth_test_disabled;
+render_mode unshaded,depth_draw_never,depth_test_disabled;
 
 uniform float planet_radius = 1.0;
 uniform float atmosphere_radius = 1.0;
@@ -7,6 +7,8 @@ uniform float atmosphere_radius = 1.0;
 uniform float density:hint_range(0.0, 1000.0, 0.01) = 19.5;
 uniform float falloff = 0.865;
 uniform vec3 sky_color:source_color = vec3(0.271,0.855,1);
+
+uniform sampler2D depth_tex : hint_depth_texture;
 
 const vec3 sun_dir = vec3(0.451,0.5,0.739);
 global uniform vec3 SUN_DIR;
@@ -39,6 +41,13 @@ vec2 raySphere(float sphereRadius, vec3 rayOrigin, vec3 rayDir) {
 	return vec2(-1.0, 0.0);
 }
 
+float linear_depth(vec2 uv, mat4 inv_proj){
+	float log_depth = textureLod(depth_tex, uv, 0.0).x;
+	vec4 depth_view = inv_proj * vec4(uv * 2.0 - 1.0, log_depth, 1.0);
+	depth_view.xyz /= depth_view.w;
+	return length(depth_view.xyz);
+}
+
 void vertex() {
 	view_mat = inverse(MODELVIEW_MATRIX);
 }
@@ -53,7 +62,8 @@ void fragment() {
 	vec2 planet = raySphere(planet_radius,orig,dir);
 	
 	float start = atmosphere.x;
-	float end = planet.x < -0.5 ? atmosphere.y : min(atmosphere.y,planet.x);
+	float scene_depth = linear_depth(SCREEN_UV, INV_PROJECTION_MATRIX);
+	float end = min(atmosphere.y,scene_depth);
 	//float end = atmosphere.y;
 	
 	float depth = (end-start)/atmosphere_radius;
