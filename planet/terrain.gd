@@ -37,4 +37,3 @@ func start(args):
 	#if not get_parent().priority:
 		#OS.delay_msec(randi()%1000)
 	call_thread_safe("add_child",QuadNode.new.callv(args))
-

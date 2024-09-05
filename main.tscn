@@ -157,7 +157,7 @@ render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_s
 
 
 // Varyings
-varying vec3 global_pos;
+varying vec3 var_global_pos;
 
 uniform mat4 pos;
 uniform float radius;
@@ -202,14 +202,14 @@ void vertex() {
 
 
 // VaryingSetter:9
-	global_pos = n_out8p0;
+	var_global_pos = n_out8p0;
 
 
 }
 
 void fragment() {
 // VaryingGetter:14
-	vec3 n_out14p0 = global_pos;
+	vec3 n_out14p0 = var_global_pos;
 
 
 // VectorLen:9
@@ -389,7 +389,7 @@ render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_s
 
 
 // Varyings
-varying vec3 global_pos;
+varying vec3 var_global_pos;
 
 uniform mat4 pos;
 uniform float radius;
@@ -435,14 +435,14 @@ void vertex() {
 
 
 // VaryingSetter:9
-	global_pos = n_out8p0;
+	var_global_pos = n_out8p0;
 
 
 }
 
 void fragment() {
 // VaryingGetter:14
-	vec3 n_out14p0 = global_pos;
+	vec3 n_out14p0 = var_global_pos;
 
 
 // VectorLen:9
