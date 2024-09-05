@@ -56,6 +56,7 @@ void fragment() {
 
 }
 "
+graph_offset = Vector2(-1178.17, -182.755)
 modes/cull = 2
 flags/depth_test_disabled = true
 flags/unshaded = true
@@ -70,4 +71,4 @@ nodes/fragment/5/node = SubResource("VisualShaderNodeMix_p37a5")
 nodes/fragment/5/position = Vector2(180, 160)
 nodes/fragment/6/node = SubResource("VisualShaderNodeFloatParameter_ajcxt")
 nodes/fragment/6/position = Vector2(-100, 400)
-nodes/fragment/connections = PackedInt32Array(4, 0, 3, 0, 3, 0, 5, 1, 5, 0, 0, 0, 6, 0, 5, 2, 2, 0, 4, 0, 2, 0, 5, 0)
+nodes/fragment/connections = PackedInt32Array(4, 0, 3, 0, 3, 0, 5, 1, 5, 0, 0, 0, 2, 0, 4, 0, 2, 0, 5, 0, 6, 0, 5, 2)

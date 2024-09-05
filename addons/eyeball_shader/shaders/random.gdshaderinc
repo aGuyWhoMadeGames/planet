@@ -2,7 +2,7 @@
 	static.frag
 	by Spatial
 	05 July 2013
-	
+
 	adapted from code by by Spatial
 	https://stackoverflow.com/questions/4200224/random-noise-functions-for-glsl
 */
@@ -50,7 +50,7 @@ vec3 random_f2_v3( vec2  v ) { return vec3(
 	floatConstruct(hash_f2(floatBitsToUint(v))),
 	floatConstruct(hash_f2(floatBitsToUint(v + 1.0))),
 	floatConstruct(hash_f2(floatBitsToUint(v + 2.0)))
-	); 
+	);
 }
 
 void foo(int g) {

@@ -27,7 +27,7 @@
 /*
 * For these methods, 'base' is the bottom image being overlaid and 'blend' is the
 * image being laid on top of it.
-* 
+*
 */
 
 #include "res://addons/eyeball_shader/shaders/random.gdshaderinc"
@@ -85,7 +85,7 @@ vec4 blend_color_dodge(vec4 base, vec4 blend) {
 vec4 blend_color_overlay(vec4 base, vec4 blend) {
 	float lum = dot(base, LUM_COEFF);
 	vec4 result;
-	
+
 	if (lum < .45)
 	    result = 2.0 * blend * base;
 	else if (lum > .55)
@@ -95,20 +95,20 @@ vec4 blend_color_overlay(vec4 base, vec4 blend) {
 		vec4 result2 = WHITE - 2.0 * (WHITE - blend) * (WHITE - base);
 		result = mix(result1, result2, (lum - .45) * 10.0);
 	}
-	
+
 	return mix(base, result, blend.a);
 }
 
 vec4 blend_soft_light(vec4 base, vec4 blend) {
 	float lum = dot(base, LUM_COEFF);
-	
+
 	return mix(base, 2.0 * base * blend + base * base - 2.0 * base * base * blend, blend.a);
 }
 
 vec4 blend_hard_light(vec4 base, vec4 blend) {
 	float lum = dot(blend, LUM_COEFF);
 	vec4 result;
-	
+
 	if (lum < .45)
 	    result = 2.0 * blend * base;
 	else if (lum > .55)
@@ -118,7 +118,7 @@ vec4 blend_hard_light(vec4 base, vec4 blend) {
 		vec4 result2 = WHITE - 2.0 * (WHITE - blend) * (WHITE - base);
 		result = mix(result1, result2, (lum - .45) * 10.0);
 	}
-	
+
 	return mix(base, result, blend.a);
 }
 
