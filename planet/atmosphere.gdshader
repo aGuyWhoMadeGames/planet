@@ -64,7 +64,8 @@ void fragment() {
 	float start = atmosphere.x;
 	float scene_depth = linear_depth(SCREEN_UV, INV_PROJECTION_MATRIX);
 	float end = min(atmosphere.y,scene_depth);
-	//float end = atmosphere.y;
+	
+	if(end < start) discard;
 	
 	float depth = (end-start)/atmosphere_radius;
 	float mid_depth = mix(start,end,0.1);
