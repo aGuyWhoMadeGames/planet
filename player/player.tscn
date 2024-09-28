@@ -56,26 +56,26 @@ properties/0/replication_mode = 1
 properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/replication_mode = 1
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_bofuv"]
-properties/0/path = NodePath(".:vel")
-properties/0/spawn = true
-properties/0/replication_mode = 1
-properties/1/path = NodePath("input:movement2")
-properties/1/spawn = true
-properties/1/replication_mode = 1
-properties/2/path = NodePath("input:jump")
+properties/2/path = NodePath(".:vel")
 properties/2/spawn = true
 properties/2/replication_mode = 1
-properties/3/path = NodePath("input:click")
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_bofuv"]
+properties/0/path = NodePath("input:movement2")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("input:jump")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("input:click")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath("SpotLight3D:visible")
 properties/3/spawn = true
-properties/3/replication_mode = 1
-properties/4/path = NodePath("SpotLight3D:visible")
+properties/3/replication_mode = 2
+properties/4/path = NodePath("Camera3D:rotation")
 properties/4/spawn = true
-properties/4/replication_mode = 2
-properties/5/path = NodePath("Camera3D:rotation")
-properties/5/spawn = true
-properties/5/replication_mode = 1
+properties/4/replication_mode = 1
 
 [node name="player" type="CharacterBody3D"]
 collision_layer = 2
@@ -151,9 +151,9 @@ visible = false
 mesh = SubResource("CylinderMesh_31n2k")
 
 [node name="server" type="MultiplayerSynchronizer" parent="."]
-replication_interval = 0.5
-delta_interval = 0.5
 replication_config = SubResource("SceneReplicationConfig_3f7tu")
+visibility_update_mode = 1
 
 [node name="client" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_bofuv")
+visibility_update_mode = 1
