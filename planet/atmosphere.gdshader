@@ -4,8 +4,8 @@ render_mode unshaded,depth_draw_never,depth_test_disabled;
 uniform float planet_radius = 1.0;
 uniform float atmosphere_radius = 1.0;
 
-uniform float density:hint_range(0.0, 1000.0, 0.01) = 19.5;
-uniform float falloff = 0.865;
+uniform float density:hint_range(0.0, 1000.0, 0.01) = 29;
+uniform float falloff = 0.97;
 uniform vec3 sky_color:source_color = vec3(0.271,0.855,1);
 
 uniform sampler2D depth_tex : hint_depth_texture;
@@ -41,6 +41,10 @@ vec2 raySphere(float sphereRadius, vec3 rayOrigin, vec3 rayDir) {
 	return vec2(-1.0, 0.0);
 }
 
+float map(float value, float min1, float max1, float min2, float max2) {
+  return min2 + (value - min1) * (max2 - min2) / (max1 - min1);
+}
+
 float linear_depth(vec2 uv, mat4 inv_proj){
 	float log_depth = textureLod(depth_tex, uv, 0.0).x;
 	vec4 depth_view = inv_proj * vec4(uv * 2.0 - 1.0, log_depth, 1.0);
@@ -68,23 +72,19 @@ void fragment() {
 	if(end < start) discard;
 	
 	float depth = (end-start)/atmosphere_radius;
-	float mid_depth = mix(start,end,0.1);
-	vec3 mid_point = dir*mid_depth+orig;
-	float mid_alt = (length(mid_point)-planet_radius)/(atmosphere_radius-planet_radius);
 	
-	float densityAtPoint = exp(-mid_alt*0.1)*(1.0-mid_alt)*depth*density;
+	float densityAtPoint = 0.0;
+	float light = 0.0;
+	for(int i=0;i<4;i++){
+		float mid_depth = mix(start,end,map(float(i),0.0,3.0,0.1,0.9));
+		vec3 mid_point = dir*mid_depth+orig;
+		float mid_alt = (length(mid_point)-planet_radius)/(atmosphere_radius-planet_radius);
+		densityAtPoint += exp(-mid_alt*0.1)*(1.0-mid_alt)*depth*density;
+		light += smoothstep(-0.1,0.1,dot(normalize(mid_point),SUN_DIR));
+	}
+	ALPHA = (1.0-pow(falloff, densityAtPoint*0.25))*light*0.25;
 	
-	vec4 color;
-	
-	float light = smoothstep(-0.1,0.1,dot(normalize(mid_point),SUN_DIR));
-	
-	color.a = (1.0-pow(falloff, densityAtPoint))*light;
-	
-	color.rgb = sky_color;
-	
-	ALBEDO = color.rgb;
-	ALPHA = color.a;
-	//ALPHA = depth;
+	ALBEDO = sky_color;
 }
 
 
