@@ -11,7 +11,7 @@
 [ext_resource type="Script" path="res://ui/in game/map player.gd" id="7"]
 [ext_resource type="Image" uid="uid://dpc3ylu65c1r4" path="res://planet/gebco_08_rev_elev_21600x10800.png" id="7_ebjej"]
 [ext_resource type="Script" path="res://ui/key toggle.gd" id="8"]
-[ext_resource type="Script" path="res://planet/PlanetGeneratorImage.gd" id="8_38q6p"]
+[ext_resource type="Script" path="res://planet/generators/planet_generator_image.gd" id="8_38q6p"]
 [ext_resource type="PackedScene" path="res://models/tree 1/tree 1v2.tscn" id="9"]
 [ext_resource type="Script" path="res://ui/in game/map.gd" id="10_0pgd6"]
 [ext_resource type="Material" uid="uid://btvq2kx8rxucp" path="res://ui/invert colors.tres" id="11_4oqrv"]
@@ -22,7 +22,7 @@
 [ext_resource type="Texture2D" uid="uid://337s7oc4kr71" path="res://textures/grass/Grass004_1K_Color.jpg" id="15_s50ri"]
 [ext_resource type="Shader" path="res://planet/atmosphere.gdshader" id="17_lx5dk"]
 [ext_resource type="PackedScene" uid="uid://c63wijximmsu4" path="res://space station.tscn" id="18_64sir"]
-[ext_resource type="Script" path="res://planet/PlanetGeneratorNoise.gd" id="21_qnna0"]
+[ext_resource type="Script" path="res://planet/generators/planet_generator_noise.gd" id="21_qnna0"]
 [ext_resource type="Shader" uid="uid://c8003nfwndhnd" path="res://normalize.tres" id="22_hvquw"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ev4d5"]

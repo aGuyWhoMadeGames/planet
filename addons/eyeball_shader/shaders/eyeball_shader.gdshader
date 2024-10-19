@@ -60,11 +60,11 @@ void vertex() {
 }
 
 void fragment() {
-	
+
 	vec2 uv_norm = UV * 2.0 - vec2(1, 1);
-	
+
 	float radial_offset = length(uv_norm);
-	
+
 	vec2 iris_uv = normalize(uv_norm) * pow(radial_offset, 1.0 - iris_pinch);
 	float eye_cell_lum = voronoi_cell_2d(iris_uv * eye_cell_scale, eye_cell_jitter, rand_seed,
 		iris_cells_num_octaves, iris_cells_lacunarity, iris_cells_weighted_strength);
@@ -72,7 +72,7 @@ void fragment() {
 
 	vec3 col = mix(pupil_color, eye_white, smoothstep(0, 1, (radial_offset - iris_radius) / iris_margin));
 	col = mix(iris_col, col, smoothstep(0, 1, (radial_offset - iris_radius + iris_margin) / iris_margin));
-	
+
 	col = mix(pupil_color, col, smoothstep(0, 1, (radial_offset - pupil_radius) / iris_margin));
 
 	if (radial_offset >= pupil_radius && radial_offset <= iris_radius) {
@@ -82,6 +82,6 @@ void fragment() {
 		col = blend_color_dodge(vec4(col, 1), dodge_col).rgb;
 		col = blend_multiply(vec4(col, 1), mult_col).rgb;
 	}
-	
+
 	ALBEDO = col;
 }

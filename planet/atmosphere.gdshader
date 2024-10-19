@@ -59,20 +59,20 @@ void vertex() {
 void fragment() {
 	vec3 orig = (view_mat*vec4(0,0,0,1)).xyz;
 	vec3 dir = normalize((view_mat * vec4(VERTEX, 1.)).xyz - orig);
-	
-	
+
+
 	vec2 atmosphere = raySphere(atmosphere_radius,orig,dir);
 	if(atmosphere.x<-0.5) discard;
 	vec2 planet = raySphere(planet_radius,orig,dir);
-	
+
 	float start = atmosphere.x;
 	float scene_depth = linear_depth(SCREEN_UV, INV_PROJECTION_MATRIX);
 	float end = min(atmosphere.y,scene_depth);
-	
+
 	if(end < start) discard;
-	
+
 	float depth = (end-start)/atmosphere_radius;
-	
+
 	float densityAtPoint = 0.0;
 	float light = 0.0;
 	for(int i=0;i<4;i++){
@@ -83,7 +83,7 @@ void fragment() {
 		light += smoothstep(-0.1,0.1,dot(normalize(mid_point),SUN_DIR));
 	}
 	ALPHA = (1.0-pow(falloff, densityAtPoint*0.25))*light*0.25;
-	
+
 	ALBEDO = sky_color;
 }
 

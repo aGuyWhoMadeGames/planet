@@ -1,7 +1,6 @@
 @tool
-extends PlanetGenerator
-
 class_name PlanetGeneratorImage
+extends PlanetGenerator
 
 @export var heightmap:Image
 @export var filter = false

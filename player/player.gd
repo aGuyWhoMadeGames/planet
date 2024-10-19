@@ -21,7 +21,7 @@ var hook_pos = Vector3()
 		return velocity
 
 func _ready():
-	tpllstr("83.34539020630596, -55.66442482887864");
+	tpllstr("83.34539020630596, -55.66442482887864")
 	up = position.normalized()
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
