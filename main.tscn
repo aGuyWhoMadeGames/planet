@@ -1,4 +1,4 @@
-[gd_scene load_steps=86 format=3 uid="uid://diraimltgcruw"]
+[gd_scene load_steps=89 format=3 uid="uid://diraimltgcruw"]
 
 [ext_resource type="Script" path="res://multiplayer/spawner.gd" id="1_i4kjb"]
 [ext_resource type="Shader" path="res://sky.gdshader" id="1_xvbwp"]
@@ -23,6 +23,7 @@
 [ext_resource type="Shader" path="res://planet/atmosphere.gdshader" id="17_lx5dk"]
 [ext_resource type="PackedScene" uid="uid://c63wijximmsu4" path="res://space station.tscn" id="18_64sir"]
 [ext_resource type="Script" path="res://planet/generators/planet_generator_noise.gd" id="21_qnna0"]
+[ext_resource type="Script" path="res://planet/generators/planet_generator_curve.gd" id="22_478m7"]
 [ext_resource type="Shader" uid="uid://c8003nfwndhnd" path="res://normalize.tres" id="22_hvquw"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ev4d5"]
@@ -318,6 +319,10 @@ shader_parameter/density = 100.0
 shader_parameter/falloff = 0.97
 shader_parameter/sky_color = Color(1, 0.713726, 0.282353, 1)
 
+[sub_resource type="Curve" id="Curve_8pvhr"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 1.0, 0.0, 0, 0]
+point_count = 2
+
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_d2m21"]
 cellular_distance_function = 1
 
@@ -326,6 +331,11 @@ script = ExtResource("21_qnna0")
 scale = 100.0
 ocean_value = -1.0
 noise = SubResource("FastNoiseLite_d2m21")
+
+[sub_resource type="Resource" id="Resource_83ujp"]
+script = ExtResource("22_478m7")
+curve = SubResource("Curve_8pvhr")
+generator = SubResource("Resource_m47sy")
 
 [sub_resource type="BoxMesh" id="BoxMesh_wmuwf"]
 flip_faces = true
@@ -752,7 +762,7 @@ size = 8
 mass = 1
 material = ExtResource("2")
 height = 128.0
-generator = SubResource("Resource_m47sy")
+generator = SubResource("Resource_83ujp")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="planet4"]
 mesh = SubResource("BoxMesh_wmuwf")
