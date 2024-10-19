@@ -1,4 +1,4 @@
-[gd_scene load_steps=89 format=3 uid="uid://diraimltgcruw"]
+[gd_scene load_steps=96 format=3 uid="uid://diraimltgcruw"]
 
 [ext_resource type="Script" path="res://multiplayer/spawner.gd" id="1_i4kjb"]
 [ext_resource type="Shader" path="res://sky.gdshader" id="1_xvbwp"]
@@ -24,6 +24,7 @@
 [ext_resource type="PackedScene" uid="uid://c63wijximmsu4" path="res://space station.tscn" id="18_64sir"]
 [ext_resource type="Script" path="res://planet/generators/planet_generator_noise.gd" id="21_qnna0"]
 [ext_resource type="Script" path="res://planet/generators/planet_generator_curve.gd" id="22_478m7"]
+[ext_resource type="Script" path="res://planet/generators/planet_generator_mix.gd" id="22_hd45m"]
 [ext_resource type="Shader" uid="uid://c8003nfwndhnd" path="res://normalize.tres" id="22_hvquw"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ev4d5"]
@@ -93,8 +94,8 @@ size = Vector3(20000, 20000, 20000)
 render_priority = 0
 shader = ExtResource("17_lx5dk")
 shader_parameter/planet_radius = 8192.0
-shader_parameter/atmosphere_radius = 10000.0
-shader_parameter/density = 50.0
+shader_parameter/atmosphere_radius = 8500.0
+shader_parameter/density = 250.0
 shader_parameter/falloff = 0.97
 shader_parameter/sky_color = Color(0.271, 0.855, 1, 1)
 
@@ -301,21 +302,48 @@ scale = 1000.0
 ocean_value = 0.0
 noise = SubResource("FastNoiseLite_ie8pk")
 
-[sub_resource type="Resource" id="Resource_a6v78"]
-script = ExtResource("8_38q6p")
-heightmap = ExtResource("3")
-filter = false
+[sub_resource type="Curve" id="Curve_qry84"]
+_data = [Vector2(0, 0.5), 0.0, 0.0, 0, 0, Vector2(0.3, 0), 0.0, 0.0, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(0.7, 0), 0.0, 0.0, 0, 0, Vector2(1, 0.5), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_r1s2s"]
+fractal_type = 0
+
+[sub_resource type="Resource" id="Resource_y4r03"]
+script = ExtResource("21_qnna0")
+scale = 100.0
+ocean_value = -1.0
+noise = SubResource("FastNoiseLite_r1s2s")
+
+[sub_resource type="Resource" id="Resource_d0wou"]
+script = ExtResource("22_478m7")
+curve = SubResource("Curve_qry84")
+generator = SubResource("Resource_y4r03")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_pawrj"]
+
+[sub_resource type="Resource" id="Resource_mpaoo"]
+script = ExtResource("21_qnna0")
+scale = 500.0
+ocean_value = -1.0
+noise = SubResource("FastNoiseLite_pawrj")
+
+[sub_resource type="Resource" id="Resource_jqsw0"]
+script = ExtResource("22_hd45m")
+factor = 0.5
+generator_a = SubResource("Resource_d0wou")
+generator_b = SubResource("Resource_mpaoo")
 
 [sub_resource type="BoxMesh" id="BoxMesh_au0x1"]
 flip_faces = true
-size = Vector3(3000, 3000, 3000)
+size = Vector3(1200, 1200, 1200)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ronx2"]
 render_priority = 0
 shader = ExtResource("17_lx5dk")
 shader_parameter/planet_radius = 512.0
-shader_parameter/atmosphere_radius = 750.0
-shader_parameter/density = 100.0
+shader_parameter/atmosphere_radius = 600.0
+shader_parameter/density = 300.0
 shader_parameter/falloff = 0.97
 shader_parameter/sky_color = Color(1, 0.713726, 0.282353, 1)
 
@@ -339,7 +367,7 @@ generator = SubResource("Resource_m47sy")
 
 [sub_resource type="BoxMesh" id="BoxMesh_wmuwf"]
 flip_faces = true
-size = Vector3(500, 500, 500)
+size = Vector3(424, 424, 424)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0veas"]
 render_priority = 0
@@ -748,7 +776,7 @@ priority = null
 mass = 4.0
 material = ExtResource("2")
 height = 64.0
-generator = SubResource("Resource_a6v78")
+generator = SubResource("Resource_jqsw0")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="planet3"]
 mesh = SubResource("BoxMesh_au0x1")
