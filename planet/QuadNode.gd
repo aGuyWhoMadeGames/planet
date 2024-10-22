@@ -1,6 +1,6 @@
-extends Node
-
+@tool
 class_name QuadNode
+extends Node
 
 var center:Vector2
 var center3:Vector3
@@ -29,7 +29,8 @@ func _init(c,l,r,t,s,p):
 	transform=t
 	scenario=s
 	space=p
-	center3 = transform * (Vector3(center.x,1<<root.size-1,center.y)).normalized()*(1<<root.size-1)
+	center3 = (Vector3(center.x,1<<root.size-1,center.y)).normalized()*(1<<root.size-1)
+	root.moved.connect.call_deferred(update_transform)
 	build()
 
 func _process(_delta):
@@ -41,13 +42,12 @@ func _process(_delta):
 
 func build():
 	var s = 32<<lod
-	node = generate(int(center.x-s)>>6,int(center.y-s)>>6,lod)
-	rendered = true
+	node = generate(int(center.x-s)>>6,int(center.y-s)>>6)
 
 func checkForDelete():
 	if Engine.is_editor_hint():return false
-	var pos = GlobalData.observer.position-root.global_position
-	d = (pos-center3).length()
+	var pos = GlobalData.observer.position
+	d = (pos-root.global_transform*center3).length()
 	if d > 96<<lod:
 		for i in get_children():
 			if not i.leaf:
@@ -59,17 +59,11 @@ func checkForDelete():
 		RenderingServer.instance_set_visible(instance,true)
 		PhysicsServer3D.body_set_shape_disabled(collider,0,false)
 
-
 func checkForSplit():
-	if Engine.is_editor_hint():
-		if lod > 4+root.lod+root.size-10:
-			split()
-			return true
-		else:
-			return false
+	if Engine.is_editor_hint():return false
 	if lod<=root.lod:return false
-	var pos = GlobalData.observer.position-root.global_position
-	d = (pos-center3).length()
+	var pos = GlobalData.observer.position
+	d = (pos-root.global_transform*center3).length()
 	if d < 64<<lod:
 		WorkerThreadPool.add_task(self.split)
 		
@@ -106,7 +100,7 @@ func get_vertex(x,z,cx,cz):
 	v -= Vector3(cx,0,cz)
 	return v
 
-func generate(cx:int,cz:int,lod):
+func generate(cx:int,cz:int):
 	var st = SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
 	
@@ -149,10 +143,6 @@ func generate(cx:int,cz:int,lod):
 	mesh.surface_set_material(0,material)
 	instance = RenderingServer.instance_create()
 	RenderingServer.instance_set_base(instance, mesh)
-	var xform:Transform3D = root.global_transform
-	xform.origin += xform.basis * (Vector3(cx,0,cz))
-	RenderingServer.instance_set_transform(instance, xform)
-	
 	
 	shape = PhysicsServer3D.concave_polygon_shape_create()
 	PhysicsServer3D.shape_set_data(shape,{
@@ -161,9 +151,20 @@ func generate(cx:int,cz:int,lod):
 	collider = PhysicsServer3D.body_create()
 	PhysicsServer3D.body_set_mode(collider, PhysicsServer3D.BODY_MODE_STATIC)
 	PhysicsServer3D.body_set_space(collider, space)
-	PhysicsServer3D.body_add_shape(collider,shape,xform)
+	PhysicsServer3D.body_add_shape(collider,shape)
 	
-	xform = transform
-	xform.origin += xform.basis * (Vector3(cx,0,cz))
+	rendered = true
+	update_transform()
+	
+	var xform = transform
+	xform.origin += xform.basis * Vector3(cx,0,cz)
 	material.set_shader_parameter("pos",xform)
 	RenderingServer.instance_set_scenario(instance, scenario)
+
+func update_transform():
+	if not rendered: return
+	var s = 32<<lod
+	var xform:Transform3D = root.global_transform
+	xform.origin += xform.basis * Vector3(center.x-s,0,center.y-s)
+	RenderingServer.instance_set_transform(instance, xform)
+	PhysicsServer3D.body_set_shape_transform(collider,0,xform)

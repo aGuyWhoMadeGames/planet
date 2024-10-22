@@ -9,9 +9,17 @@ var material:Material
 var height = 10.0
 var generator:PlanetGenerator
 
+@onready var prev_pos := get_global_transform()
+signal moved
 
 func _ready():
 	refresh()
+
+func _process(_delta: float) -> void:
+	var pos = get_global_transform()
+	if not pos.is_equal_approx(prev_pos):
+		moved.emit()
+	prev_pos = pos
 
 func get_params():
 	size = get_parent().size
