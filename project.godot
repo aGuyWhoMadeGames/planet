@@ -19,7 +19,7 @@ config/icon="res://icon.png"
 
 Window="*res://globals/window.gd"
 GlobalData="*res://globals/global data.gd"
-Gravity="*res://globals/Gravity.gd"
+Gravity="*res://globals/gravity.gd"
 Multiplayer="*res://multiplayer/multiplayer.gd"
 
 [display]

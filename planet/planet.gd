@@ -29,7 +29,7 @@ func refresh_setget(_a=null):
 			i.reload = true
 
 func _ready():
-	Gravity.add_body(self)
+	add_to_group("gravity_wells")
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	
 	refresh = true

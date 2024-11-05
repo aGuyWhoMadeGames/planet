@@ -659,6 +659,7 @@ size = 1024.0
 far = 100000.0
 
 [node name="planet" type="Node3D" parent="."]
+process_mode = 3
 script = ExtResource("5")
 priority = true
 size = 14
@@ -760,6 +761,7 @@ script = ExtResource("14_4d0iq")
 transform = Transform3D(5, 0, 0, 0, -5, 7.54979e-07, 0, -7.54979e-07, -5, -1, -8224, 0)
 
 [node name="planet2" type="Node3D" parent="."]
+process_mode = 3
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24000, 0, 24000)
 script = ExtResource("5")
 priority = null
@@ -770,6 +772,7 @@ height = 64.0
 generator = SubResource("Resource_sxh3p")
 
 [node name="planet3" type="Node3D" parent="."]
+process_mode = 3
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32000, 0, -7000)
 script = ExtResource("5")
 priority = null
@@ -783,6 +786,7 @@ mesh = SubResource("BoxMesh_au0x1")
 surface_material_override/0 = SubResource("ShaderMaterial_ronx2")
 
 [node name="planet4" type="Node3D" parent="."]
+process_mode = 3
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24000, 0, 8000)
 script = ExtResource("5")
 priority = null
@@ -797,6 +801,7 @@ mesh = SubResource("BoxMesh_wmuwf")
 surface_material_override/0 = SubResource("ShaderMaterial_0veas")
 
 [node name="planet5" type="Node3D" parent="."]
+process_mode = 3
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64000, 0, 2000)
 script = ExtResource("5")
 priority = null
