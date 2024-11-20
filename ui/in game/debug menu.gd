@@ -9,6 +9,7 @@ Fps: {fps}
 Triangles: {tris}
 Resolution: {xres}x{yres}
 Memory:{mem}Mb
+{frame}
 """
 
 func _process(_delta):
@@ -19,7 +20,8 @@ func _process(_delta):
 		"tris":RenderingServer.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_PRIMITIVES_IN_FRAME),
 		"xres":get_viewport().size.x,
 		"yres":get_viewport().size.y,
-		"mem":round((OS.get_static_memory_usage())*0.000001)
+		"mem":round((OS.get_static_memory_usage())*0.000001),
+		"frame":get_tree().get_first_node_in_group("active_frame").name if get_tree().get_first_node_in_group("active_frame") else "space",
 	})
 
 func _input(_event):

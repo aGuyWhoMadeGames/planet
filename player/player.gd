@@ -38,17 +38,17 @@ func _ready():
 
 func _physics_process(delta):
 	
-	velocity += $Camera3D.global_transform.basis * (Vector3.BACK)*10*input.click
+	velocity += $Camera3D.global_transform.basis * Vector3.BACK*10*input.click
 	
 	var movement2 = input.movement2
 	var movement = Vector3(movement2.x,0,movement2.y)
 	
-	movement = transform.basis * (movement)
+	movement = transform.basis * movement
 	movement = movement.rotated(up, $Camera3D.rotation.y)
 	
 	velocity += movement
 	var rotated_vel = transform.basis.inverse() * velocity
-	velocity = transform.basis * (rotated_vel)
+	velocity = transform.basis * rotated_vel
 	
 	var f = Gravity.get_force(global_position)*delta
 	velocity += f
@@ -60,7 +60,14 @@ func _physics_process(delta):
 			velocity += up * jump_power
 	
 	set_up_direction(up.normalized())
+	
+	var time_start = Time.get_ticks_usec()
+	
 	move_and_slide()
+	
+	var time_end = Time.get_ticks_usec()
+	if (time_end - time_start) > 1000:
+		print("move_and_slide took %d microseconds" % (time_end - time_start))
 	
 	transform = align_with_y(transform, up)
 
@@ -76,7 +83,7 @@ func _input(event):
 				$Camera3D.rotation_degrees.x = -90
 	
 	if Input.is_action_just_pressed("unstuck"):
-		position = position.normalized() * ($"../../planet".height+(1<<$"../../planet".size-1))
+		position = position.normalized() * ($"../../planet/planet".height+(1<<$"../../planet/planet".size-1))
 		velocity = Vector3.ZERO
 	
 	
@@ -103,5 +110,5 @@ func tpll(lat,lon):
 	v.x = cos(lon)*z
 	v.z = sin(lon)*z
 	position = v
-	position = position.normalized() * ($"../../planet".height+(1<<$"../../planet".size-1))
+	position = position.normalized() * ($"../../planet/planet".height+(1<<$"../../planet/planet".size-1))
 	transform = align_with_y(transform,up)

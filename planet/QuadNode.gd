@@ -80,7 +80,6 @@ func split():
 	RenderingServer.instance_set_visible(instance,false)
 	PhysicsServer3D.body_set_shape_disabled(collider,0,true)
 	queued = false
-	OS.delay_msec(5)
 	return true
 
 func _exit_tree():
@@ -145,8 +144,11 @@ func generate(cx:int,cz:int):
 	RenderingServer.instance_set_base(instance, mesh)
 	
 	shape = PhysicsServer3D.concave_polygon_shape_create()
-	PhysicsServer3D.shape_set_data(shape,{
-		"faces":PackedVector3Array(tris)})
+	
+	# Disgusting mess of hard coding.
+	if lod <= min(2, root.size-1) or root.size > 12:
+		PhysicsServer3D.shape_set_data(shape,{
+			"faces":PackedVector3Array(tris)})
 	
 	collider = PhysicsServer3D.body_create()
 	PhysicsServer3D.body_set_mode(collider, PhysicsServer3D.BODY_MODE_STATIC)
