@@ -145,10 +145,8 @@ func generate(cx:int,cz:int):
 	
 	shape = PhysicsServer3D.concave_polygon_shape_create()
 	
-	# Disgusting mess of hard coding.
-	if lod <= min(2, root.size-1) or root.size > 12:
-		PhysicsServer3D.shape_set_data(shape,{
-			"faces":PackedVector3Array(tris)})
+	PhysicsServer3D.shape_set_data(shape,{
+		"faces":PackedVector3Array(tris)})
 	
 	collider = PhysicsServer3D.body_create()
 	PhysicsServer3D.body_set_mode(collider, PhysicsServer3D.BODY_MODE_STATIC)

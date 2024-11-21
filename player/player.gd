@@ -61,14 +61,7 @@ func _physics_process(delta):
 	
 	set_up_direction(up.normalized())
 	
-	var time_start = Time.get_ticks_usec()
-	
 	move_and_slide()
-	
-	var time_end = Time.get_ticks_usec()
-	if (time_end - time_start) > 1000:
-		print("move_and_slide took %d microseconds" % (time_end - time_start))
-	
 	transform = align_with_y(transform, up)
 
 func _input(event):

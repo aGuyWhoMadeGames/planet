@@ -8,6 +8,7 @@ var lod
 var material:Material
 var height = 10.0
 var generator:PlanetGenerator
+var space:RID
 
 @onready var prev_pos := get_global_transform()
 signal moved
@@ -27,13 +28,18 @@ func get_params():
 	material = get_parent().material
 	height = get_parent().height
 	generator = get_parent().generator
+	
+	if "space" in get_parent().get_parent():
+		space = get_parent().get_parent().space
+	else:
+		space = get_world_3d().space
 
 func refresh(_a=null):
 	get_params()
 	for i in get_children():
 		i.queue_free()
 	var task = start.bind([Vector2.ZERO,size-6,self,
-	transform,get_world_3d().scenario,get_world_3d().space])
+	transform,get_world_3d().scenario,space])
 	
 	task.call()
 	#if get_parent().priority:

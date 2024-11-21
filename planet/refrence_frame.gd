@@ -24,10 +24,13 @@ extends Node3D
 @export var axis_of_rotation = Vector3.UP
 @export var rotational_period = 60.0
 
+var space:RID = PhysicsServer3D.space_create()
+
 func _ready() -> void:
 	add_to_group("refrence_frames")
 	if active:
 		active = true
+		PhysicsServer3D.body_set_space(GlobalData.player.get_rid(),space)
 
 func _process(_delta: float) -> void:
 	if Engine.is_editor_hint():
@@ -52,13 +55,17 @@ func _physics_process(_delta: float) -> void:
 				remove_from_group("active_frame")
 				GlobalData.player.global_transform = global_location * GlobalData.player.global_transform
 				GlobalData.player.velocity = global_location.basis * GlobalData.player.velocity
-				GlobalData.player.velocity -= GlobalData.player.global_position.cross(axis_of_rotation) * 2 * PI / rotational_period
+				if rotating:
+					GlobalData.player.velocity -= GlobalData.player.global_position.cross(axis_of_rotation) * 2 * PI / rotational_period
+				PhysicsServer3D.body_set_space(GlobalData.player.get_rid(),get_world_3d().space)
 		else:
 			if d < radius * radius:
 				active = true
 				GlobalData.player.global_transform = global_location.inverse() * GlobalData.player.global_transform
 				GlobalData.player.velocity = global_location.basis.inverse() * GlobalData.player.velocity
-				GlobalData.player.velocity += GlobalData.player.global_position.cross(axis_of_rotation) * 2 * PI / rotational_period
+				if rotating:
+					GlobalData.player.velocity += GlobalData.player.global_position.cross(axis_of_rotation) * 2 * PI / rotational_period
+				PhysicsServer3D.body_set_space(GlobalData.player.get_rid(),space)
 
 func deactivate():
 	active = false

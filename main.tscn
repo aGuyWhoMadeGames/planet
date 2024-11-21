@@ -745,8 +745,7 @@ far = 100000.0
 [node name="planet" type="Node3D" parent="."]
 rotation_edit_mode = 2
 script = ExtResource("14_o7msb")
-active = true
-radius = 9000.0
+radius = 8500.0
 rotating = true
 
 [node name="atmosphere" type="MeshInstance3D" parent="planet"]
@@ -782,7 +781,7 @@ autoplay = "rotation"
 [node name="planet2" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24000, 0, 24000)
 script = ExtResource("14_o7msb")
-radius = 3000.0
+radius = 2100.0
 global_location = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24000, 0, 24000)
 
 [node name="planet2" type="Node3D" parent="planet2"]
@@ -798,7 +797,7 @@ generator = SubResource("Resource_sxh3p")
 [node name="planet3" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32000, 0, -7000)
 script = ExtResource("14_o7msb")
-radius = 1000.0
+radius = 600.0
 global_location = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32000, 0, -7000)
 rotational_period = 60
 
@@ -853,7 +852,7 @@ update_scale = false
 [node name="planet5" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64000, 0, 2000)
 script = ExtResource("14_o7msb")
-radius = 512.0
+radius = 150.0
 global_location = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64000, 0, 2000)
 rotational_period = 60
 

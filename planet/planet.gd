@@ -10,6 +10,7 @@ extends Node3D
 @export var height = 10.0
 @export var generator:PlanetGenerator
 
+
 func _init():
 	for i in [
 		Vector3(0,0,0),
