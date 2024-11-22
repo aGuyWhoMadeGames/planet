@@ -1,8 +1,5 @@
 extends Control
 
-
-
-
 func _on_host_pressed():
 	$Loading.show()
 	$Main.hide()

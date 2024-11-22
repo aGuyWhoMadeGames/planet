@@ -9,7 +9,7 @@ var root:Terrain
 var transform:Transform3D
 var scenario:RID
 var space:RID
-var qnode = load("res://planet/QuadNode.gd")
+var qnode = load("res://planet/quad_node.gd")
 var rendered = false
 var queued = false
 var node

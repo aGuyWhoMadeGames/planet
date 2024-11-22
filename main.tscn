@@ -1,4 +1,4 @@
-[gd_scene load_steps=98 format=3 uid="uid://diraimltgcruw"]
+[gd_scene load_steps=97 format=3 uid="uid://diraimltgcruw"]
 
 [ext_resource type="Script" path="res://multiplayer/spawner.gd" id="1_i4kjb"]
 [ext_resource type="Shader" path="res://sky.gdshader" id="1_xvbwp"]
@@ -8,14 +8,13 @@
 [ext_resource type="Texture2D" uid="uid://3t8iomjsx4bs" path="res://ui/in game/land_shallow_topo_2048.jpg" id="4"]
 [ext_resource type="Script" path="res://planet/planet.gd" id="5"]
 [ext_resource type="PackedScene" uid="uid://cffie56u3bqwu" path="res://player/player.tscn" id="6"]
-[ext_resource type="Script" path="res://ui/in game/map player.gd" id="7"]
+[ext_resource type="Script" path="res://ui/in game/map_player.gd" id="7"]
 [ext_resource type="Image" uid="uid://dpc3ylu65c1r4" path="res://planet/gebco_08_rev_elev_21600x10800.png" id="7_ebjej"]
-[ext_resource type="Script" path="res://ui/key toggle.gd" id="8"]
+[ext_resource type="Script" path="res://ui/key_toggle.gd" id="8"]
 [ext_resource type="Script" path="res://planet/generators/planet_generator_image.gd" id="8_38q6p"]
 [ext_resource type="PackedScene" path="res://models/tree 1/tree 1v2.tscn" id="9"]
-[ext_resource type="Script" path="res://ui/in game/map.gd" id="10_0pgd6"]
 [ext_resource type="Material" uid="uid://btvq2kx8rxucp" path="res://ui/invert colors.tres" id="11_4oqrv"]
-[ext_resource type="Script" path="res://ui/in game/debug menu.gd" id="11_n541p"]
+[ext_resource type="Script" path="res://ui/in game/debug_menu.gd" id="11_n541p"]
 [ext_resource type="FontFile" uid="uid://hkgna3pbdejj" path="res://ui/OpenSans-Regular.ttf" id="12"]
 [ext_resource type="Script" path="res://planet/frame_anchor.gd" id="13_ofqk3"]
 [ext_resource type="Script" path="res://ui/in game/teleport.gd" id="14_4d0iq"]
@@ -23,7 +22,7 @@
 [ext_resource type="PackedScene" uid="uid://dcn34vivc37vm" path="res://ui/in game/pause.tscn" id="15_rxe8o"]
 [ext_resource type="Texture2D" uid="uid://337s7oc4kr71" path="res://textures/grass/Grass004_1K_Color.jpg" id="15_s50ri"]
 [ext_resource type="Shader" path="res://planet/atmosphere.gdshader" id="17_lx5dk"]
-[ext_resource type="PackedScene" uid="uid://c63wijximmsu4" path="res://space station.tscn" id="18_64sir"]
+[ext_resource type="PackedScene" uid="uid://c63wijximmsu4" path="res://space_station.tscn" id="18_64sir"]
 [ext_resource type="Script" path="res://planet/generators/planet_generator_noise.gd" id="21_qnna0"]
 [ext_resource type="Script" path="res://planet/generators/planet_generator_curve.gd" id="22_478m7"]
 [ext_resource type="Script" path="res://planet/generators/planet_generator_mix.gd" id="22_hd45m"]
@@ -60,7 +59,7 @@ cache/0/16/0/underline_thickness = 0.0
 cache/0/16/0/scale = 1.0
 cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="InputEventAction" id="InputEventAction_arblq"]
+[sub_resource type="InputEventAction" id="InputEventAction_1cbak"]
 action = &"map_toggle"
 
 [sub_resource type="BoxMesh" id="BoxMesh_xis6e"]
@@ -679,8 +678,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("10_0pgd6")
-key = SubResource("InputEventAction_arblq")
+script = ExtResource("8")
+key = SubResource("InputEventAction_1cbak")
 
 [node name="AspectRatioContainer" type="AspectRatioContainer" parent="CanvasLayer/Control/map"]
 layout_mode = 0
