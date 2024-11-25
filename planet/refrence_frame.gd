@@ -20,11 +20,26 @@ extends Node3D
 			transform = x
 
 @export_group("Rotation")
-@export var rotating = false
-@export var axis_of_rotation = Vector3.UP
-@export var rotational_period = 60.0
+@export var rotating = false :
+	set(x):
+		rotating = x
+		update_angular_velocity()
+
+@export var axis_of_rotation = Vector3.UP :
+	set(x):
+		axis_of_rotation = x
+		update_angular_velocity()
+
+@export var rotational_period = 60.0 :
+	set(x):
+		rotational_period = x
+		update_angular_velocity()
+
+var angular_velocity:Vector3 = Vector3.ZERO
 
 var space:RID = PhysicsServer3D.space_create()
+
+var first_frame:bool = false
 
 func _ready() -> void:
 	add_to_group("refrence_frames")
@@ -47,6 +62,8 @@ func _physics_process(_delta: float) -> void:
 	if Engine.is_editor_hint():
 		return
 	
+	first_frame = false
+	
 	if active or not get_tree().get_first_node_in_group("active_frame"):
 		var d = (GlobalData.player.position - position).length_squared()
 		if active:
@@ -55,17 +72,22 @@ func _physics_process(_delta: float) -> void:
 				remove_from_group("active_frame")
 				GlobalData.player.global_transform = global_location * GlobalData.player.global_transform
 				GlobalData.player.velocity = global_location.basis * GlobalData.player.velocity
-				if rotating:
-					GlobalData.player.velocity -= GlobalData.player.global_position.cross(axis_of_rotation) * 2 * PI / rotational_period
+				GlobalData.player.velocity -= GlobalData.player.global_position.cross(angular_velocity)
 				PhysicsServer3D.body_set_space(GlobalData.player.get_rid(),get_world_3d().space)
 		else:
 			if d < radius * radius:
 				active = true
+				first_frame = true
 				GlobalData.player.global_transform = global_location.inverse() * GlobalData.player.global_transform
 				GlobalData.player.velocity = global_location.basis.inverse() * GlobalData.player.velocity
-				if rotating:
-					GlobalData.player.velocity += GlobalData.player.global_position.cross(axis_of_rotation) * 2 * PI / rotational_period
+				GlobalData.player.velocity += GlobalData.player.global_position.cross(angular_velocity)
 				PhysicsServer3D.body_set_space(GlobalData.player.get_rid(),space)
 
 func deactivate():
 	active = false
+
+func update_angular_velocity():
+	if rotating:
+		angular_velocity = axis_of_rotation * 2 * PI / rotational_period
+	else:
+		angular_velocity = Vector3.ZERO

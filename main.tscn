@@ -746,6 +746,7 @@ rotation_edit_mode = 2
 script = ExtResource("14_o7msb")
 radius = 8500.0
 rotating = true
+rotational_period = 300.0
 
 [node name="atmosphere" type="MeshInstance3D" parent="planet"]
 top_level = true
@@ -776,6 +777,7 @@ libraries = {
 "": SubResource("AnimationLibrary_bq32c")
 }
 autoplay = "rotation"
+speed_scale = 0.2
 
 [node name="planet2" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24000, 0, 24000)
