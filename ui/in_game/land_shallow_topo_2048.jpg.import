@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://3t8iomjsx4bs"
-path="res://.godot/imported/land_shallow_topo_2048.jpg-df1644be75bfbd60143196d35222d9f9.ctex"
+path="res://.godot/imported/land_shallow_topo_2048.jpg-7fe2b539fa338108225e8bc4e227f9e6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ui/in game/land_shallow_topo_2048.jpg"
-dest_files=["res://.godot/imported/land_shallow_topo_2048.jpg-df1644be75bfbd60143196d35222d9f9.ctex"]
+source_file="res://ui/in_game/land_shallow_topo_2048.jpg"
+dest_files=["res://.godot/imported/land_shallow_topo_2048.jpg-7fe2b539fa338108225e8bc4e227f9e6.ctex"]
 
 [params]
 

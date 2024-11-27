@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="earth v6"
-run/main_scene="res://ui/main menu/menu.tscn"
+run/main_scene="res://ui/main_menu/menu.tscn"
 config/features=PackedStringArray("4.3")
 config/icon="res://icon.png"
 
@@ -25,11 +25,6 @@ Multiplayer="*res://multiplayer/multiplayer.gd"
 [display]
 
 window/size/mode=2
-
-[editor]
-
-movie_writer/movie_file="E:/Documents/James/James/Godot 4.x/planet 5/test_video.avi"
-movie_writer/fps=30
 
 [editor_plugins]
 
@@ -167,6 +162,7 @@ common/enable_pause_aware_picking=true
 
 [rendering]
 
+environment/defaults/default_environment="res://default_env.tres"
 threads/thread_model=2
 
 [shader_globals]

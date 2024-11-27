@@ -4,7 +4,7 @@ render_mode unshaded,depth_draw_never,depth_test_disabled;
 uniform float planet_radius = 1.0;
 uniform float atmosphere_radius = 1.0;
 
-uniform float density:hint_range(0.0, 1000.0, 0.01) = 29;
+uniform float density:hint_range(0.0, 10000.0, 0.01) = 29;
 uniform float falloff = 0.97;
 uniform vec3 sky_color:source_color = vec3(0.271,0.855,1);
 

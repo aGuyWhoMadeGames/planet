@@ -21,7 +21,7 @@ func _process(_delta):
 		"xres":get_viewport().size.x,
 		"yres":get_viewport().size.y,
 		"mem":round((OS.get_static_memory_usage())*0.000001),
-		"frame":get_tree().get_first_node_in_group("active_frame").name if get_tree().get_first_node_in_group("active_frame") else "space",
+		"frame":get_tree().get_first_node_in_group("active_frame").name as String if get_tree().get_first_node_in_group("active_frame") else "space",
 	})
 
 func _input(_event):

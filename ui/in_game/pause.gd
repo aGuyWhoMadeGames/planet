@@ -20,4 +20,4 @@ func _on_continue_pressed():
 
 
 func _on_menu_pressed():
-	get_tree().change_scene_to_file("res://ui/main menu/menu.tscn")
+	get_tree().change_scene_to_file("res://ui/main_menu/menu.tscn")

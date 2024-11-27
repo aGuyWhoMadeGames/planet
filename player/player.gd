@@ -42,10 +42,10 @@ func _physics_process(delta):
 		var pos:Vector3 = frame.global_location.basis * position
 		var prev_pos:Vector3 = frame.global_location.basis.rotated(frame.axis_of_rotation, 2*PI*delta/frame.rotational_period) * (position - get_position_delta())
 		
-		var vel:Vector3 = pos.cross(frame.angular_velocity)
+		var tan_vel:Vector3 = pos.cross(frame.angular_velocity)
 		var prev_vel:Vector3 = prev_pos.cross(frame.angular_velocity)
 		
-		var diff = vel - prev_vel
+		var diff = tan_vel - prev_vel
 		
 		velocity -= frame.global_location.basis.inverse() * diff
 		
