@@ -96,7 +96,7 @@ func get_vertex(x,z,cx,cz):
 	v = n*(1<<root.size-1)
 	var h = root.generator._get_height(transform * n)*root.height
 	v += n * h
-	v -= Vector3(cx,0,cz)
+	v -= center3
 	return v
 
 func generate(cx:int,cz:int):
@@ -157,7 +157,7 @@ func generate(cx:int,cz:int):
 	update_transform()
 	
 	var xform = transform
-	xform.origin += xform.basis * Vector3(cx,0,cz)
+	xform.origin += xform.basis * center3
 	material.set_shader_parameter("pos",xform)
 	RenderingServer.instance_set_scenario(instance, scenario)
 
@@ -165,6 +165,6 @@ func update_transform():
 	if not rendered: return
 	var s = 32<<lod
 	var xform:Transform3D = root.global_transform
-	xform.origin += xform.basis * Vector3(center.x-s,0,center.y-s)
+	xform.origin += xform.basis * center3
 	RenderingServer.instance_set_transform(instance, xform)
 	PhysicsServer3D.body_set_shape_transform(collider,0,xform)
