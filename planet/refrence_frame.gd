@@ -19,6 +19,10 @@ extends Node3D
 		if Engine.is_editor_hint():
 			transform = x
 
+@export_group("Linear Motion")
+@export var linear_velocity:Vector3 = Vector3.ZERO
+@export var linear_acceleration:Vector3 = Vector3.ZERO
+
 @export_group("Rotation")
 @export var rotating = false :
 	set(x):
@@ -73,6 +77,7 @@ func _physics_process(_delta: float) -> void:
 				GlobalData.player.global_transform = global_location * GlobalData.player.global_transform
 				GlobalData.player.velocity = global_location.basis * GlobalData.player.velocity
 				GlobalData.player.velocity -= GlobalData.player.global_position.cross(angular_velocity)
+				GlobalData.player.velocity += linear_velocity
 				PhysicsServer3D.body_set_space(GlobalData.player.get_rid(),get_world_3d().space)
 		else:
 			if d < radius * radius:
@@ -81,6 +86,7 @@ func _physics_process(_delta: float) -> void:
 				GlobalData.player.global_transform = global_location.inverse() * GlobalData.player.global_transform
 				GlobalData.player.velocity = global_location.basis.inverse() * GlobalData.player.velocity
 				GlobalData.player.velocity += GlobalData.player.global_position.cross(angular_velocity)
+				GlobalData.player.velocity -= linear_velocity
 				PhysicsServer3D.body_set_space(GlobalData.player.get_rid(),space)
 
 func deactivate():

@@ -800,7 +800,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32000, 0, -7000)
 script = ExtResource("14_o7msb")
 radius = 600.0
 global_location = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32000, 0, -7000)
-rotational_period = 60
 
 [node name="atmosphere" type="MeshInstance3D" parent="planet3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32000, 0, -7000)
@@ -827,7 +826,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24000, 0, 8000)
 script = ExtResource("14_o7msb")
 radius = 512.0
 global_location = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24000, 0, 8000)
-rotational_period = 60
 
 [node name="atmosphere" type="MeshInstance3D" parent="planet4"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24000, 0, 8000)
@@ -855,7 +853,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64000, 0, 2000)
 script = ExtResource("14_o7msb")
 radius = 150.0
 global_location = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64000, 0, 2000)
-rotational_period = 60
 
 [node name="atmosphere" type="MeshInstance3D" parent="planet5"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64000, 0, 2000)

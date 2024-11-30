@@ -38,7 +38,7 @@ func _ready():
 
 func _physics_process(delta):
 	var frame:RefrenceFrame = get_tree().get_first_node_in_group("active_frame")
-	if frame and not frame.first_frame:
+	if frame and not frame.first_frame and not is_on_floor():
 		var prev_transform:Basis = frame.global_location.basis.rotated(frame.axis_of_rotation, 2*PI*delta/frame.rotational_period)
 		
 		var pos:Vector3 = frame.global_location.basis * position
@@ -50,7 +50,7 @@ func _physics_process(delta):
 		var diff:Vector3 = tan_vel - prev_vel
 		
 		velocity -= prev_transform.inverse() * diff
-		
+		velocity -= frame.linear_acceleration * delta
 	
 	velocity += $Camera3D.global_transform.basis * Vector3.BACK*10*input.click
 	
