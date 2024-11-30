@@ -38,16 +38,18 @@ func _ready():
 
 func _physics_process(delta):
 	var frame:RefrenceFrame = get_tree().get_first_node_in_group("active_frame")
-	if frame and not frame.first_frame and not is_on_floor():
+	if frame and not frame.first_frame:
+		var prev_transform:Basis = frame.global_location.basis.rotated(frame.axis_of_rotation, 2*PI*delta/frame.rotational_period)
+		
 		var pos:Vector3 = frame.global_location.basis * position
-		var prev_pos:Vector3 = frame.global_location.basis.rotated(frame.axis_of_rotation, 2*PI*delta/frame.rotational_period) * (position - get_position_delta())
+		var prev_pos:Vector3 = prev_transform * (position - get_position_delta())
 		
 		var tan_vel:Vector3 = pos.cross(frame.angular_velocity)
 		var prev_vel:Vector3 = prev_pos.cross(frame.angular_velocity)
 		
-		var diff = tan_vel - prev_vel
+		var diff:Vector3 = tan_vel - prev_vel
 		
-		velocity -= frame.global_location.basis.inverse() * diff
+		velocity -= prev_transform.inverse() * diff
 		
 	
 	velocity += $Camera3D.global_transform.basis * Vector3.BACK*10*input.click

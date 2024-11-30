@@ -163,7 +163,6 @@ func generate(cx:int,cz:int):
 
 func update_transform():
 	if not rendered: return
-	var s = 32<<lod
 	var xform:Transform3D = root.global_transform
 	xform.origin += xform.basis * center3
 	RenderingServer.instance_set_transform(instance, xform)
