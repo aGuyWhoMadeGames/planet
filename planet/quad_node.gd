@@ -120,12 +120,19 @@ func generate(cx:int,cz:int):
 			var px = verts[x*65+y]
 			var py = verts[x*65+y+66]
 			var pxy = verts[x*65+y+65]
+			
+			st.set_uv(Vector2(x,y)*s)
 			st.add_vertex(p)
+			st.set_uv(Vector2(x+1,y)*s)
 			st.add_vertex(px)
+			st.set_uv(Vector2(x,y+1)*s)
 			st.add_vertex(py)
 			
+			st.set_uv(Vector2(x+1,y)*s)
 			st.add_vertex(px)
+			st.set_uv(Vector2(x+1,y+1)*s)
 			st.add_vertex(pxy)
+			st.set_uv(Vector2(x,y+1)*s)
 			st.add_vertex(py)
 			
 			tris.append(p)
@@ -137,6 +144,7 @@ func generate(cx:int,cz:int):
 			tris.append(py)
 			
 	st.generate_normals()
+	st.generate_tangents()
 	mesh = st.commit()
 	material = root.material.duplicate()
 	mesh.surface_set_material(0,material)
