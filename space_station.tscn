@@ -1,16 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://c63wijximmsu4"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_krg16"]
-size = Vector3(42, 1, 42)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_d0u6f"]
-size = Vector3(4, 4, 1)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_j1esa"]
-size = Vector3(10, 5, 1)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_yv2xi"]
-size = Vector3(42, 3, 1)
+[gd_scene format=3 uid="uid://c63wijximmsu4"]
 
 [node name="CSGCombiner3D" type="CSGCombiner3D"]
 use_collision = true
@@ -51,36 +39,3 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 3, 11)
 light_energy = 1.727
 shadow_reverse_cull_face = true
 omni_range = 28.0
-
-[node name="RemoteTransform3D" type="RemoteTransform3D" parent="."]
-transform = Transform3D(1, 0, 5.32907e-15, 0, 1, 0, -1.77636e-15, 0, 1, 0, 0, -3.7)
-remote_path = NodePath("../AnimatableBody3D")
-
-[node name="AnimatableBody3D" type="AnimatableBody3D" parent="."]
-transform = Transform3D(1, 0, 5.32907e-15, 0, 1, 0, -1.77636e-15, 0, 1, 0, 0, -3.7)
-top_level = true
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="AnimatableBody3D"]
-transform = Transform3D(1, 0, 3.55271e-15, 0, 1, -1.05879e-21, -3.55271e-15, 0, 1, -4.5, 0, -1.5)
-shape = SubResource("BoxShape3D_krg16")
-disabled = true
-
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="AnimatableBody3D"]
-transform = Transform3D(1, 0, 3.55271e-15, 0, 1, -6.35275e-22, -3.55271e-15, 0, 1, -1.5, 2, 6.55671e-08)
-shape = SubResource("BoxShape3D_d0u6f")
-disabled = true
-
-[node name="CollisionShape3D3" type="CollisionShape3D" parent="AnimatableBody3D"]
-transform = Transform3D(1, 0, 3.55271e-15, 0, 1, -6.35275e-22, -3.55271e-15, 0, 1, -7.5, 2, 8.94169e-08)
-shape = SubResource("BoxShape3D_d0u6f")
-disabled = true
-
-[node name="CollisionShape3D4" type="CollisionShape3D" parent="AnimatableBody3D"]
-transform = Transform3D(1, 0, 3.55271e-15, 0, 1, -6.35275e-22, -3.55271e-15, 0, 1, -4.5, 2, 19)
-shape = SubResource("BoxShape3D_j1esa")
-disabled = true
-
-[node name="CollisionShape3D5" type="CollisionShape3D" parent="AnimatableBody3D"]
-transform = Transform3D(1, 0, 3.55271e-15, 0, 1, -1.05879e-21, -3.55271e-15, 0, 1, -4.5, 2, -22)
-shape = SubResource("BoxShape3D_yv2xi")
-disabled = true

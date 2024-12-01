@@ -1,10 +1,9 @@
-[gd_scene load_steps=97 format=3 uid="uid://diraimltgcruw"]
+[gd_scene load_steps=96 format=3 uid="uid://diraimltgcruw"]
 
 [ext_resource type="Script" path="res://multiplayer/spawner.gd" id="1_i4kjb"]
 [ext_resource type="Shader" path="res://sky.gdshader" id="1_xvbwp"]
 [ext_resource type="Material" uid="uid://cfup815wm0vd8" path="res://planet/new_shadermaterial.tres" id="2"]
 [ext_resource type="Script" path="res://sun.gd" id="2_4wyh8"]
-[ext_resource type="Image" uid="uid://dk0r6on5lcgit" path="res://planet/gebco_08_rev_elev_16200x8100.png" id="3"]
 [ext_resource type="Texture2D" uid="uid://3t8iomjsx4bs" path="res://ui/in_game/land_shallow_topo_2048.jpg" id="4"]
 [ext_resource type="Script" path="res://planet/planet.gd" id="5"]
 [ext_resource type="PackedScene" uid="uid://cffie56u3bqwu" path="res://player/player.tscn" id="6"]
@@ -578,7 +577,7 @@ shader_parameter/Albedo = ExtResource("15_s50ri")
 
 [sub_resource type="Resource" id="Resource_xs4sh"]
 script = ExtResource("8_38q6p")
-heightmap = ExtResource("3")
+heightmap = ExtResource("7_ebjej")
 filter = null
 
 [sub_resource type="Animation" id="Animation_f2nvt"]
