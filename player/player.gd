@@ -88,7 +88,7 @@ func _input(event):
 				$Camera3D.rotation_degrees.x = -90
 	
 	if Input.is_action_just_pressed("unstuck"):
-		position = position.normalized() * ($"../../planet/planet".height+(1<<$"../../planet/planet".size-1))
+		position = position.normalized() * (200+(1<<$"../../planet/planet".size-1))
 		velocity = Vector3.ZERO
 	
 	
@@ -115,5 +115,5 @@ func tpll(lat,lon):
 	v.x = cos(lon)*z
 	v.z = sin(lon)*z
 	position = v
-	position = position.normalized() * ($"../../planet/planet".height+(1<<$"../../planet/planet".size-1))
+	position = position.normalized() * (200+(1<<$"../../planet/planet".size-1))
 	transform = align_with_y(transform,up)

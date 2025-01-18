@@ -7,7 +7,6 @@ extends Node3D
 @export var mass = 1000.0
 @export var lod = 0
 @export var material:Material
-@export var height = 10.0
 @export var generator:PlanetGenerator
 
 

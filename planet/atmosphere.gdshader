@@ -5,7 +5,6 @@ uniform float planet_radius = 1.0;
 uniform float atmosphere_radius = 1.0;
 
 uniform float density:hint_range(0.0, 10000.0, 0.01) = 29;
-uniform float falloff = 0.97;
 uniform vec3 sky_color:source_color = vec3(0.271,0.855,1);
 
 uniform sampler2D depth_tex : hint_depth_texture;
@@ -79,10 +78,10 @@ void fragment() {
 		float mid_depth = mix(start,end,map(float(i),0.0,3.0,0.1,0.9));
 		vec3 mid_point = dir*mid_depth+orig;
 		float mid_alt = (length(mid_point)-planet_radius)/(atmosphere_radius-planet_radius);
-		densityAtPoint += exp(-mid_alt*0.1)*(1.0-mid_alt)*depth*density;
-		light += smoothstep(-0.1,0.1,dot(normalize(mid_point),SUN_DIR));
+		densityAtPoint += exp(-mid_alt*10.0)*(1.0-mid_alt)*depth*density;
+		light += smoothstep(-0.2,0.2,dot(normalize(mid_point),SUN_DIR));
 	}
-	ALPHA = (1.0-pow(falloff, densityAtPoint*0.25))*light*0.25;
+	ALPHA = (1.0-exp(-densityAtPoint*0.25))*light*0.25;
 
 	ALBEDO = sky_color;
 }

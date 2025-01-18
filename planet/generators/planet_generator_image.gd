@@ -2,6 +2,8 @@
 class_name PlanetGeneratorImage
 extends PlanetGenerator
 
+@export var min_height = 0.0
+@export var max_height = 50.0
 @export var heightmap:Image
 @export var filter = false
 
@@ -22,4 +24,4 @@ func _get_height(v:Vector3) -> float:
 		h = lerp(h0,h1,fmod(y,1))
 	else:
 		h = heightmap.get_pixel(int(x)%heightmap.get_width(),int(y)%heightmap.get_height()).r
-	return h
+	return remap(h,0,1,min_height,max_height)

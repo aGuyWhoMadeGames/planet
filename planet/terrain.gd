@@ -6,7 +6,6 @@ class_name Terrain
 var size
 var lod
 var material:Material
-var height = 10.0
 var generator:PlanetGenerator
 var space:RID
 
@@ -26,7 +25,6 @@ func get_params():
 	size = get_parent().size
 	lod = get_parent().lod
 	material = get_parent().material
-	height = get_parent().height
 	generator = get_parent().generator
 	
 	if "space" in get_parent().get_parent():
