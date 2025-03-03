@@ -1,4 +1,5 @@
 @tool
+class_name Planet
 extends Node3D
 
 @export var refresh = false: set = refresh_setget

@@ -13,6 +13,8 @@ extends Node3D
 
 @export var radius = 200.0
 
+@export var use_physics_space = false
+
 @export var global_location:Transform3D :
 	set(x):
 		global_location = x
@@ -74,20 +76,20 @@ func _physics_process(_delta: float) -> void:
 			if d > radius * radius + 10000:
 				active = false
 				remove_from_group("active_frame")
-				GlobalData.player.global_transform = global_location * GlobalData.player.global_transform
 				GlobalData.player.velocity = global_location.basis * GlobalData.player.velocity
 				GlobalData.player.velocity -= GlobalData.player.global_position.cross(angular_velocity)
 				GlobalData.player.velocity += linear_velocity
-				PhysicsServer3D.body_set_space(GlobalData.player.get_rid(),get_world_3d().space)
+				GlobalData.player.global_transform = global_location * GlobalData.player.global_transform
+				if use_physics_space: PhysicsServer3D.body_set_space(GlobalData.player.get_rid(),get_world_3d().space)
 		else:
 			if d < radius * radius:
 				active = true
 				first_frame = true
 				GlobalData.player.global_transform = global_location.inverse() * GlobalData.player.global_transform
+				GlobalData.player.velocity -= linear_velocity
 				GlobalData.player.velocity = global_location.basis.inverse() * GlobalData.player.velocity
 				GlobalData.player.velocity += GlobalData.player.global_position.cross(angular_velocity)
-				GlobalData.player.velocity -= linear_velocity
-				PhysicsServer3D.body_set_space(GlobalData.player.get_rid(),space)
+				if use_physics_space: PhysicsServer3D.body_set_space(GlobalData.player.get_rid(),space)
 
 func deactivate():
 	active = false

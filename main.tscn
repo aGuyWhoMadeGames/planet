@@ -1,4 +1,4 @@
-[gd_scene load_steps=98 format=3 uid="uid://diraimltgcruw"]
+[gd_scene load_steps=96 format=3 uid="uid://diraimltgcruw"]
 
 [ext_resource type="Script" path="res://multiplayer/spawner.gd" id="1_i4kjb"]
 [ext_resource type="Shader" path="res://sky.gdshader" id="1_xvbwp"]
@@ -26,6 +26,7 @@
 [ext_resource type="Script" path="res://planet/generators/planet_generator_curve.gd" id="22_478m7"]
 [ext_resource type="Script" path="res://planet/generators/planet_generator_mix.gd" id="22_hd45m"]
 [ext_resource type="Shader" uid="uid://c8003nfwndhnd" path="res://normalize.tres" id="22_hvquw"]
+[ext_resource type="Script" path="res://satellite.gd" id="25_8d51i"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ev4d5"]
 shader = ExtResource("1_xvbwp")
@@ -591,44 +592,6 @@ max_height = 4.0
 heightmap = ExtResource("7_ebjej")
 filter = null
 
-[sub_resource type="Animation" id="Animation_f2nvt"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Node3D:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 0, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_kocja"]
-resource_name = "orbit"
-length = 110.0
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Node3D:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 110),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0, 6.28319, 0)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_fdl4b"]
-_data = {
-"RESET": SubResource("Animation_f2nvt"),
-"orbit": SubResource("Animation_kocja")
-}
-
 [sub_resource type="QuadMesh" id="QuadMesh_737h8"]
 center_offset = Vector3(0, 0, -0.1)
 
@@ -756,6 +719,7 @@ rotation_edit_mode = 2
 script = ExtResource("14_o7msb")
 active = true
 radius = 8500.0
+use_physics_space = true
 rotating = true
 rotational_period = 300.0
 
@@ -793,6 +757,7 @@ speed_scale = 0.2
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24000, 0, 24000)
 script = ExtResource("14_o7msb")
 radius = 2100.0
+use_physics_space = true
 global_location = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24000, 0, 24000)
 
 [node name="planet2" type="Node3D" parent="planet2"]
@@ -808,6 +773,7 @@ generator = SubResource("Resource_58sya")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32000, 0, -7000)
 script = ExtResource("14_o7msb")
 radius = 600.0
+use_physics_space = true
 global_location = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32000, 0, -7000)
 
 [node name="atmosphere" type="MeshInstance3D" parent="planet3"]
@@ -833,6 +799,7 @@ update_scale = false
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24000, 0, 8000)
 script = ExtResource("14_o7msb")
 radius = 512.0
+use_physics_space = true
 global_location = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24000, 0, 8000)
 
 [node name="atmosphere" type="MeshInstance3D" parent="planet4"]
@@ -859,6 +826,7 @@ update_scale = false
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64000, 0, 2000)
 script = ExtResource("14_o7msb")
 radius = 150.0
+use_physics_space = true
 global_location = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64000, 0, 2000)
 
 [node name="atmosphere" type="MeshInstance3D" parent="planet5"]
@@ -884,15 +852,15 @@ update_scale = false
 [node name="Node3D" type="Node3D" parent="."]
 rotation_edit_mode = 2
 
-[node name="CSGCombiner3D" parent="Node3D" instance=ExtResource("18_64sir")]
-transform = Transform3D(-4.37114e-08, 0, -1, -1, -4.37114e-08, 4.37114e-08, -4.37114e-08, 1, 1.91069e-15, 0, 0, 10100)
+[node name="space_station" type="Node3D" parent="Node3D"]
+script = ExtResource("25_8d51i")
+planet_path = NodePath("../../planet/planet")
+altitude = 1908.0
+semi_major_axis = 10100.0
+radius = 100.0
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Node3D"]
-root_node = NodePath("../..")
-callback_mode_process = 0
-libraries = {
-"": SubResource("AnimationLibrary_fdl4b")
-}
+[node name="CSGCombiner3D" parent="Node3D/space_station" instance=ExtResource("18_64sir")]
+transform = Transform3D(1.91069e-15, -4.37114e-08, -1, -1, -4.37114e-08, 0, -4.37114e-08, 1, -4.37114e-08, 0, 0, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, -1.62921e-07, 0, 1, 0, 1.62921e-07, 0, 1, 0, 0, 0)

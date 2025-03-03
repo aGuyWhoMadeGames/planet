@@ -50,7 +50,7 @@ func _physics_process(delta):
 		var diff:Vector3 = tan_vel - prev_vel
 		
 		velocity -= prev_transform.inverse() * diff
-		velocity -= frame.linear_acceleration * delta
+		velocity -= frame.global_location.basis.inverse() * frame.linear_acceleration * delta
 	
 	velocity += $Camera3D.global_transform.basis * Vector3.BACK*10*input.click
 	
