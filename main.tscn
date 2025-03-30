@@ -398,7 +398,7 @@ render_priority = 0
 shader = ExtResource("17_lx5dk")
 shader_parameter/planet_radius = 64.0
 shader_parameter/atmosphere_radius = 150.0
-shader_parameter/density = 20.0
+shader_parameter/density = 4.0
 shader_parameter/sky_color = Color(0.271, 0.855, 1, 1)
 
 [sub_resource type="VisualShaderNodeSwitch" id="VisualShaderNodeSwitch_jf6c2"]
