@@ -717,7 +717,6 @@ far = 100000.0
 [node name="planet" type="Node3D" parent="."]
 rotation_edit_mode = 2
 script = ExtResource("14_o7msb")
-active = true
 radius = 8500.0
 use_physics_space = true
 rotating = true

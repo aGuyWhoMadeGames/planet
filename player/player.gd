@@ -27,12 +27,18 @@ func _ready():
 	
 	$Camera3D/RayCast3D.add_exception(self)
 	
+	add_to_group("players")
+	
+	if get_tree().get_first_node_in_group("active_frame"):
+		PhysicsServer3D.body_set_space(get_rid(), get_tree().get_first_node_in_group("active_frame").space)
+	
 	if multiplayer.get_unique_id() == get_multiplayer_authority():
 		$Camera3D.current = true
 		$Camera3D/MeshInstance3D2.layers = 2
 		$Camera3D/MeshInstance3D3.layers = 2
-		GlobalData.observer = self
-		GlobalData.player = self
+		
+		add_to_group("player")
+		add_to_group("observer")
 		
 		add_child(load("res://player/freecam.gd").new())
 

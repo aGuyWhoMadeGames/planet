@@ -49,9 +49,6 @@ var first_frame:bool = false
 
 func _ready() -> void:
 	add_to_group("refrence_frames")
-	if active:
-		active = true
-		PhysicsServer3D.body_set_space(GlobalData.player.get_rid(),space)
 
 func _process(_delta: float) -> void:
 	if Engine.is_editor_hint():
@@ -70,26 +67,34 @@ func _physics_process(_delta: float) -> void:
 	
 	first_frame = false
 	
+	var player = get_tree().get_first_node_in_group("player")
+	if not player:
+		return
+	
 	if active or not get_tree().get_first_node_in_group("active_frame"):
-		var d = (GlobalData.player.position - position).length_squared()
+		var d = (player.position - position).length_squared()
 		if active:
 			if d > radius * radius + 10000:
 				active = false
 				remove_from_group("active_frame")
-				GlobalData.player.velocity = global_location.basis * GlobalData.player.velocity
-				GlobalData.player.velocity -= GlobalData.player.global_position.cross(angular_velocity)
-				GlobalData.player.velocity += linear_velocity
-				GlobalData.player.global_transform = global_location * GlobalData.player.global_transform
-				if use_physics_space: PhysicsServer3D.body_set_space(GlobalData.player.get_rid(),get_world_3d().space)
+				player.velocity = global_location.basis * player.velocity
+				player.velocity -= player.global_position.cross(angular_velocity)
+				player.velocity += linear_velocity
+				player.global_transform = global_location * player.global_transform
+				if use_physics_space:
+					for p in get_tree().get_nodes_in_group("players"):
+						PhysicsServer3D.body_set_space(p.get_rid(),get_world_3d().space)
 		else:
 			if d < radius * radius:
 				active = true
 				first_frame = true
-				GlobalData.player.global_transform = global_location.inverse() * GlobalData.player.global_transform
-				GlobalData.player.velocity -= linear_velocity
-				GlobalData.player.velocity = global_location.basis.inverse() * GlobalData.player.velocity
-				GlobalData.player.velocity += GlobalData.player.global_position.cross(angular_velocity)
-				if use_physics_space: PhysicsServer3D.body_set_space(GlobalData.player.get_rid(),space)
+				player.global_transform = global_location.inverse() * player.global_transform
+				player.velocity -= linear_velocity
+				player.velocity = global_location.basis.inverse() * player.velocity
+				player.velocity += player.global_position.cross(angular_velocity)
+				if use_physics_space:
+					for p in get_tree().get_nodes_in_group("players"):
+						PhysicsServer3D.body_set_space(p.get_rid(),space)
 
 func deactivate():
 	active = false

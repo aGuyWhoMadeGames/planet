@@ -14,5 +14,8 @@ func remove_player(id:int):
 
 func teleport(id:int):
 	var target:CharacterBody3D = $"../../../../players".get_node(str(id))
-	GlobalData.player.transform = target.transform
-	GlobalData.player.velocity = target.velocity
+	var player = get_tree().get_first_node_in_group("player")
+	if not player:
+		return
+	player.transform = target.transform
+	player.velocity = target.velocity

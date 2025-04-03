@@ -25,17 +25,15 @@ extends RefrenceFrame
 
 @onready var planet:Planet = get_node(planet_path)
 
-var time = 0
 
 func _physics_process(delta: float) -> void:
 	if Engine.is_editor_hint(): return
-	time += delta
 	
 	var a = semi_major_axis
 	var GM = planet.mass*Gravity.G
 	
 	var T = 2*PI*sqrt(a*a*a/GM)
-	var M = 2*PI*fmod(time,T)/T
+	var M = 2*PI*fmod(Multiplayer.time,T)/T
 	
 	var up = Vector3.FORWARD.rotated(Vector3.UP,M+PI)
 	

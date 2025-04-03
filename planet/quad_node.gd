@@ -46,8 +46,9 @@ func build():
 
 func checkForDelete():
 	if Engine.is_editor_hint():return false
-	var pos = GlobalData.observer.position
-	d = (pos-root.global_transform*center3).length()
+	var pos = get_tree().get_first_node_in_group("observer")
+	if not pos: return
+	d = (pos.global_position-root.global_transform*center3).length()
 	if d > 96<<lod:
 		for i in get_children():
 			if not i.leaf:
@@ -62,8 +63,9 @@ func checkForDelete():
 func checkForSplit():
 	if Engine.is_editor_hint():return false
 	if lod<=root.lod:return false
-	var pos = GlobalData.observer.position
-	d = (pos-root.global_transform*center3).length()
+	var pos = get_tree().get_first_node_in_group("observer")
+	if not pos: return
+	d = (pos.global_position-root.global_transform*center3).length()
 	if d < 64<<lod:
 		WorkerThreadPool.add_task(self.split)
 		

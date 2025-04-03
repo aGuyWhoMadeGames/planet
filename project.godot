@@ -18,7 +18,6 @@ config/icon="res://icon.png"
 [autoload]
 
 Window="*res://globals/window.gd"
-GlobalData="*res://globals/global data.gd"
 Gravity="*res://globals/gravity.gd"
 Multiplayer="*res://multiplayer/multiplayer.gd"
 
