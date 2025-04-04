@@ -39,13 +39,11 @@ func refresh(_a=null):
 	var task = start.bind([Vector2.ZERO,size-6,self,
 	transform,get_world_3d().scenario,space])
 	
-	task.call()
-	#if get_parent().priority:
-		#task.call()
-	#else:
-		#WorkerThreadPool.add_task(task)
+	#task.call()
+	if get_parent().priority:
+		task.call()
+	else:
+		WorkerThreadPool.add_task(task)
 
 func start(args):
-	#if not get_parent().priority:
-		#OS.delay_msec(randi()%1000)
 	call_thread_safe("add_child",QuadNode.new.callv(args))
