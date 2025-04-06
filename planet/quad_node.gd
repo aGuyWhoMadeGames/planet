@@ -114,8 +114,6 @@ func generate(cx:int,cz:int):
 		for y in range(65):
 			verts.append(get_vertex(x*s,y*s,cx,cz))
 	
-	var tris = []
-	
 	for x in range(64):
 		for y in range(64):
 			var p = verts[x*65+y+1]
@@ -136,15 +134,7 @@ func generate(cx:int,cz:int):
 			st.add_vertex(pxy)
 			st.set_uv(Vector2(x,y+1)*s)
 			st.add_vertex(py)
-			
-			tris.append(p)
-			tris.append(px)
-			tris.append(py)
-			
-			tris.append(px)
-			tris.append(pxy)
-			tris.append(py)
-			
+	
 	st.generate_normals()
 	st.generate_tangents()
 	mesh = st.commit()
@@ -156,7 +146,7 @@ func generate(cx:int,cz:int):
 	shape = PhysicsServer3D.concave_polygon_shape_create()
 	
 	PhysicsServer3D.shape_set_data(shape,{
-		"faces":PackedVector3Array(tris)})
+		"faces":st.commit_to_arrays()[Mesh.ARRAY_VERTEX]})
 	
 	collider = PhysicsServer3D.body_create()
 	PhysicsServer3D.body_set_mode(collider, PhysicsServer3D.BODY_MODE_STATIC)
