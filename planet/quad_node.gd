@@ -121,18 +121,18 @@ func generate(cx:int,cz:int):
 			var py = verts[x*65+y+66]
 			var pxy = verts[x*65+y+65]
 			
-			st.set_uv(Vector2(x,y)*s)
+			st.set_uv(Vector2(y+1,x)*s)
 			st.add_vertex(p)
-			st.set_uv(Vector2(x+1,y)*s)
+			st.set_uv(Vector2(y,x)*s)
 			st.add_vertex(px)
-			st.set_uv(Vector2(x,y+1)*s)
+			st.set_uv(Vector2(y+1,x+1)*s)
 			st.add_vertex(py)
 			
-			st.set_uv(Vector2(x+1,y)*s)
+			st.set_uv(Vector2(y,x)*s)
 			st.add_vertex(px)
-			st.set_uv(Vector2(x+1,y+1)*s)
+			st.set_uv(Vector2(y,x+1)*s)
 			st.add_vertex(pxy)
-			st.set_uv(Vector2(x,y+1)*s)
+			st.set_uv(Vector2(y+1,x+1)*s)
 			st.add_vertex(py)
 	
 	st.generate_normals()
