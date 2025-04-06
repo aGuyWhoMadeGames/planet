@@ -93,7 +93,7 @@ func _exit_tree():
 func get_vertex(x,z,cx,cz):
 	var gx = x+cx
 	var gz = z+cz
-	var v := Vector3(gx,1<<root.size-1,gz+0.1)
+	var v := Vector3(gx,1<<root.size-1,gz)
 	var n = v.normalized()
 	v = n*(1<<root.size-1)
 	var h = root.generator._get_height(transform * n)

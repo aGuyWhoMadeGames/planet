@@ -8,11 +8,10 @@ extends PlanetGenerator
 @export var filter = false
 
 func _get_height(v:Vector3) -> float:
-	var lat = acos(v.y)
-	var long = acos(v.x/max(Vector2(v.x,v.z).length(),0.01))
-	long *= -sign(v.z)
-	var x = (long/(PI)+1)*heightmap.get_height()
-	var y = (lat/(PI*2))*heightmap.get_width()
+	var long = -atan2(v.z,v.x)
+	var lat = -atan2(v.y,Vector2(v.x,v.z).length())
+	var x = (long/PI+1)*(heightmap.get_height()-1)
+	var y = (lat/PI*0.5+0.25)*(heightmap.get_width()-1)
 	var h:float
 	if filter:
 		h = heightmap.get_pixel(int(x)%heightmap.get_width(),int(y)%heightmap.get_height()).r
